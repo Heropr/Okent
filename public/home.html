@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Okent - Dashboard</title>
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <svg class="sidebar-logo" width="237" height="55" viewBox="0 0 237 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M27.2476 0.00195312C31.7645 -0.0551863 36.2859 1.11461 40.3521 3.06641H40.355C45.9177 5.73917 50.1856 10.5493 52.3755 16.3135C54.5882 22.4071 54.86 29.4069 53.1118 35.6104C51.732 40.4112 48.8329 44.8007 45.1099 48.1348C40.0024 52.8075 32.7735 54.3701 26.0093 54.1299C18.0551 53.9628 10.8327 50.892 5.92432 44.5557C3.33864 41.1141 1.40337 37.1069 0.499512 32.8896C-0.104535 29.9402 -0.146525 26.9541 0.297363 23.9863C0.67493 21.2335 1.21286 18.4119 2.18994 15.7666C4.16933 10.6248 8.28643 6.34315 13.0347 3.63379C17.3777 1.40282 22.334 0.228541 27.2056 0.00195312H27.2476ZM179.939 0.913086C184.248 0.478314 189.621 0.572112 190.836 5.59473C191.404 7.6542 191.334 10.0737 191.334 12.2705C191.309 14.9317 191.264 17.5722 191.213 20.2334C191.085 27.1349 191.31 34.0295 191.28 40.9424C191.172 44.3678 191.635 48.6653 189.303 51.3701C185.848 55.068 176.982 53.8416 173.374 50.583C170.738 48.4252 168.596 45.3405 166.443 42.6152C165.404 41.3178 163.918 39.3794 162.667 39.0361C159.871 38.4101 160.511 45.4593 160.038 47.2695C159.749 49.2626 158.953 51.3065 157.131 52.3477C154.127 54.1072 147.953 54.2629 145.203 52.1074C142.152 49.6566 142.868 44.9857 142.784 41.4434C142.759 34.9035 142.313 28.1941 142.48 21.6016C142.583 17.8283 142.558 14.0183 142.521 10.2656C142.526 7.5885 142.692 4.40109 144.852 2.63672C147.598 0.474267 152.534 0.615617 155.91 1.37305C158.269 1.90622 160.415 3.11892 162.15 4.80078C164.621 6.76415 168.885 14.7298 171.782 14.4346H171.799C174.188 13.7732 173.3 7.83281 174 5.7207C174.557 2.78723 176.992 1.22696 179.939 0.911133V0.913086ZM112.255 0.723633C114.2 0.703039 116.18 0.730465 118.157 0.730469C122.067 0.705298 125.885 0.823707 129.857 0.867188C132.287 0.908377 135.043 0.926812 137.208 1.99316C140.541 3.51267 141.354 7.87202 140.383 11.1328C139.66 13.7459 137.654 15.377 134.86 15.8828C132.13 16.4595 128.742 16.0801 126.09 16.8398C124.839 17.1694 122.798 18.0347 124.279 19.1719C126.688 20.6246 129.832 20.2582 132.548 20.7158C135.768 21.1735 138.138 23.1279 138.617 26.4434C139.136 30.1938 137.292 33.2946 133.361 33.9766C130.979 34.4731 128.219 34.2149 125.908 34.915C124.457 35.3773 123.61 35.8376 123.887 36.5996C124.462 37.5078 125.848 37.7252 127.097 37.9814L127.1 37.9883C131.434 38.6884 137.781 37.1053 140.051 42.0107C141.145 44.5301 141.153 47.9884 139.773 50.5078C138.894 52.0387 137.429 52.8691 135.663 53.2559C134.077 53.5899 132.299 53.6194 130.64 53.624C126.338 53.6126 121.953 53.5649 117.622 53.6152C116.093 53.6313 114.557 53.6468 113.036 53.6445C110.638 53.6537 107.848 53.5324 105.986 52.0107L105.96 51.9902C102.949 49.4456 103.327 44.6061 103.167 40.9082C103.075 36.7389 103.228 32.496 103.255 28.3496C103.221 22.5992 103.089 16.9377 103.304 11.2285C103.412 8.5627 103.341 5.29929 104.945 3.16211C106.574 0.979581 109.67 0.757964 112.255 0.723633ZM204.213 1.02734C209.284 0.933523 214.31 0.641312 219.438 0.709961C221.623 0.741995 223.81 0.783199 225.996 0.783203C229.245 0.856428 232.556 0.414526 235.002 2.63867L234.999 2.63672C236.586 4.23396 236.822 6.62736 236.783 8.8125C236.751 11.8421 235.728 14.8378 232.685 15.7715C230.85 16.4259 228.508 16.3818 226.708 17.2627C223.177 18.9491 223.458 23.4413 223.378 26.7891C223.323 28.6746 223.291 30.5537 223.241 32.4805C223.17 37.0319 223.268 41.6429 223.334 46.1943C223.382 53.8188 217.644 53.7179 211.545 53.6172C204.392 53.1733 205.586 46.7986 205.442 41.5332C205.492 37.1969 205.356 32.7755 205.463 28.4346C205.399 25.3339 206.015 21.5902 204.285 18.8809L204.266 18.8535C202.415 15.9428 198.081 16.7551 195.44 14.9199C194.056 13.9428 193.372 12.38 193.079 10.7188C192.655 7.81721 192.253 3.29779 195.339 1.78516C197.939 0.576944 201.204 1.112 204.213 1.02734ZM93.0542 0.53125C95.5347 0.615917 101.471 0.334302 102.121 3.26562C102.512 4.81467 101.029 7.28794 99.979 8.78223C98.066 11.5579 96.1891 14.4003 94.228 17.2012C93.5049 18.2355 92.7982 19.2771 92.2124 20.3252C89.6793 24.5036 89.9494 28.1508 92.7183 32.4551V32.4531C94.3132 35.0457 96.0522 37.5516 97.7661 40.0732C99.4687 42.8032 103.588 47.2497 103.505 50.3457V50.3701C103.18 53.4134 98.7572 53.3794 96.3452 53.4961C89.5696 53.7181 84.3956 53.3062 80.1646 47.501C78.9655 46.0571 77.535 43.7644 75.9126 43.4531C74.1437 43.1625 73.9791 47.2422 73.2651 48.8418C72.1851 52.4161 68.5667 53.3814 65.1411 53.4912C61.0429 53.5941 56.4849 53.0932 55.6909 48.2559C55.1212 44.4986 55.5444 40.5766 55.4712 36.7461C55.5192 30.0848 55.3682 23.3156 55.4712 16.6406C55.4712 14.5514 55.4642 12.4778 55.5054 10.4092C55.5672 7.36813 55.7942 3.91486 58.4233 2.16211C61.0732 0.432413 65.2746 0.430318 68.311 1.05957C73.2834 2.27927 73.0023 5.65482 74.5903 9.47168C75.5285 11.2081 76.7796 10.3383 78.0015 9.06152C79.0312 7.96087 80.146 6.29999 81.2329 5.09863C84.1848 1.5106 88.4067 0.464911 93.0542 0.53125ZM31.2476 18.707C24.854 15.2677 18.4923 20.094 18.6479 27.0527V27.0986C18.6184 33.4966 23.9773 38.2854 30.27 36.1436L30.2681 36.1416C37.5193 33.455 37.9885 22.341 31.2476 18.707Z" fill="#1A1A1A"/>
+        </svg>
+
+        <a href="#" class="sidebar-link home-link" id="homeLink">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5.33333 11.3333H10.6667M7.34513 1.84267L2.82359 5.35942C2.52135 5.5945 2.37022 5.71204 2.26135 5.85925C2.16491 5.98964 2.09307 6.13653 2.04935 6.29271C2 6.46902 2 6.66047 2 7.04338V11.8667C2 12.6134 2 12.9868 2.14532 13.272C2.27316 13.5229 2.47713 13.7268 2.72801 13.8547C3.01323 14 3.3866 14 4.13333 14H11.8667C12.6134 14 12.9868 14 13.272 13.8547C13.5229 13.7268 13.7268 13.5229 13.8547 13.272C14 12.9868 14 12.6134 14 11.8667V7.04338C14 6.66047 14 6.46902 13.9506 6.29271C13.9069 6.13653 13.8351 5.98964 13.7386 5.85925C13.6298 5.71204 13.4787 5.5945 13.1764 5.35942L8.65487 1.84267C8.42065 1.6605 8.30354 1.56942 8.17423 1.53441C8.06013 1.50351 7.93987 1.50351 7.82577 1.53441C7.69646 1.56942 7.57935 1.6605 7.34513 1.84267Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>Home</span>
+        </a>
+
+        <div class="campaigns-section">
+          <div class="campaigns-header">
+            <button class="campaigns-toggle" id="campaignsToggle">
+              <svg class="chevron-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span>Campaigns</span>
+            </button>
+            <button class="add-campaign-btn">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8.00016 3.33325V12.6666M3.3335 7.99992H12.6668" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+          <nav class="campaigns-list" id="campaignsList">
+            <div class="campaign-item-wrapper">
+              <svg class="folder-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8.66634 4.66667L7.92265 3.17928C7.70861 2.7512 7.60158 2.53715 7.44192 2.38078C7.30073 2.24249 7.13056 2.13732 6.94372 2.07287C6.73245 2 6.49315 2 6.01453 2H3.46634C2.7196 2 2.34624 2 2.06102 2.14532C1.81014 2.27316 1.60616 2.47713 1.47833 2.72801C1.33301 3.01323 1.33301 3.3866 1.33301 4.13333V4.66667M1.33301 4.66667H11.4663C12.5864 4.66667 13.1465 4.66667 13.5743 4.88465C13.9506 5.0764 14.2566 5.38236 14.4484 5.75869C14.6663 6.18651 14.6663 6.74656 14.6663 7.86667V10.8C14.6663 11.9201 14.6663 12.4802 14.4484 12.908C14.2566 13.2843 13.9506 13.5903 13.5743 13.782C13.1465 14 12.5864 14 11.4663 14H4.53301C3.4129 14 2.85285 14 2.42503 13.782C2.0487 13.5903 1.74274 13.2843 1.55099 12.908C1.33301 12.4802 1.33301 11.9201 1.33301 10.8V4.66667Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <a href="#" class="campaign-item">Target campaign</a>
+              <button class="campaign-menu-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <circle cx="12" cy="5" r="2"></circle>
+                  <circle cx="12" cy="12" r="2"></circle>
+                  <circle cx="12" cy="19" r="2"></circle>
+                </svg>
+              </button>
+              <div class="campaign-dropdown">
+                <button class="rename-btn">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14 12L13.3332 12.7294C12.9796 13.1161 12.5001 13.3333 12.0001 13.3333C11.5001 13.3333 11.0205 13.1161 10.6669 12.7294C10.3128 12.3434 9.83332 12.1267 9.33345 12.1267C8.83359 12.1267 8.35409 12.3434 7.99998 12.7294M2 13.3333H3.11636C3.44248 13.3333 3.60554 13.3333 3.75899 13.2965C3.89504 13.2638 4.0251 13.21 4.1444 13.1368C4.27895 13.0544 4.39425 12.9391 4.62486 12.7085L13 4.33333C13.5523 3.78104 13.5523 2.88561 13 2.33333C12.4477 1.78104 11.5523 1.78104 11 2.33333L2.62484 10.7085C2.39424 10.9391 2.27894 11.0544 2.19648 11.1889C2.12338 11.3082 2.0695 11.4383 2.03684 11.5744C2 11.7278 2 11.8909 2 12.217V13.3333Z" stroke="#666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  Rename
+                </button>
+                <button class="delete-btn">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10.6667 3.99999V3.46666C10.6667 2.71992 10.6667 2.34656 10.5213 2.06134C10.3935 1.81046 10.1895 1.60648 9.93865 1.47865C9.65344 1.33333 9.28007 1.33333 8.53333 1.33333H7.46667C6.71993 1.33333 6.34656 1.33333 6.06135 1.47865C5.81046 1.60648 5.60649 1.81046 5.47866 2.06134C5.33333 2.34656 5.33333 2.71992 5.33333 3.46666V3.99999M6.66667 7.66666V11M9.33333 7.66666V11M2 3.99999H14M12.6667 3.99999V11.4667C12.6667 12.5868 12.6667 13.1468 12.4487 13.5746C12.2569 13.951 11.951 14.2569 11.5746 14.4487C11.1468 14.6667 10.5868 14.6667 9.46667 14.6667H6.53333C5.41323 14.6667 4.85318 14.6667 4.42535 14.4487C4.04903 14.2569 3.74307 13.951 3.55132 13.5746C3.33333 13.1468 3.33333 12.5868 3.33333 11.4667V3.99999" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  Delete
+                </button>
+              </div>
+            </div>
+            <div class="campaign-item-wrapper active">
+              <svg class="folder-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8.66634 4.66667L7.92265 3.17928C7.70861 2.7512 7.60158 2.53715 7.44192 2.38078C7.30073 2.24249 7.13056 2.13732 6.94372 2.07287C6.73245 2 6.49315 2 6.01453 2H3.46634C2.7196 2 2.34624 2 2.06102 2.14532C1.81014 2.27316 1.60616 2.47713 1.47833 2.72801C1.33301 3.01323 1.33301 3.3866 1.33301 4.13333V4.66667M1.33301 4.66667H11.4663C12.5864 4.66667 13.1465 4.66667 13.5743 4.88465C13.9506 5.0764 14.2566 5.38236 14.4484 5.75869C14.6663 6.18651 14.6663 6.74656 14.6663 7.86667V10.8C14.6663 11.9201 14.6663 12.4802 14.4484 12.908C14.2566 13.2843 13.9506 13.5903 13.5743 13.782C13.1465 14 12.5864 14 11.4663 14H4.53301C3.4129 14 2.85285 14 2.42503 13.782C2.0487 13.5903 1.74274 13.2843 1.55099 12.908C1.33301 12.4802 1.33301 11.9201 1.33301 10.8V4.66667Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <a href="#" class="campaign-item active">Replica</a>
+              <button class="campaign-menu-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <circle cx="12" cy="5" r="2"></circle>
+                  <circle cx="12" cy="12" r="2"></circle>
+                  <circle cx="12" cy="19" r="2"></circle>
+                </svg>
+              </button>
+              <div class="campaign-dropdown">
+                <button class="rename-btn">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14 12L13.3332 12.7294C12.9796 13.1161 12.5001 13.3333 12.0001 13.3333C11.5001 13.3333 11.0205 13.1161 10.6669 12.7294C10.3128 12.3434 9.83332 12.1267 9.33345 12.1267C8.83359 12.1267 8.35409 12.3434 7.99998 12.7294M2 13.3333H3.11636C3.44248 13.3333 3.60554 13.3333 3.75899 13.2965C3.89504 13.2638 4.0251 13.21 4.1444 13.1368C4.27895 13.0544 4.39425 12.9391 4.62486 12.7085L13 4.33333C13.5523 3.78104 13.5523 2.88561 13 2.33333C12.4477 1.78104 11.5523 1.78104 11 2.33333L2.62484 10.7085C2.39424 10.9391 2.27894 11.0544 2.19648 11.1889C2.12338 11.3082 2.0695 11.4383 2.03684 11.5744C2 11.7278 2 11.8909 2 12.217V13.3333Z" stroke="#666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  Rename
+                </button>
+                <button class="delete-btn">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10.6667 3.99999V3.46666C10.6667 2.71992 10.6667 2.34656 10.5213 2.06134C10.3935 1.81046 10.1895 1.60648 9.93865 1.47865C9.65344 1.33333 9.28007 1.33333 8.53333 1.33333H7.46667C6.71993 1.33333 6.34656 1.33333 6.06135 1.47865C5.81046 1.60648 5.60649 1.81046 5.47866 2.06134C5.33333 2.34656 5.33333 2.71992 5.33333 3.46666V3.99999M6.66667 7.66666V11M9.33333 7.66666V11M2 3.99999H14M12.6667 3.99999V11.4667C12.6667 12.5868 12.6667 13.1468 12.4487 13.5746C12.2569 13.951 11.951 14.2569 11.5746 14.4487C11.1468 14.6667 10.5868 14.6667 9.46667 14.6667H6.53333C5.41323 14.6667 4.85318 14.6667 4.42535 14.4487C4.04903 14.2569 3.74307 13.951 3.55132 13.5746C3.33333 13.1468 3.33333 12.5868 3.33333 11.4667V3.99999" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  Delete
+                </button>
+              </div>
+            </div>
+            <div class="campaign-item-wrapper">
+              <svg class="folder-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8.66634 4.66667L7.92265 3.17928C7.70861 2.7512 7.60158 2.53715 7.44192 2.38078C7.30073 2.24249 7.13056 2.13732 6.94372 2.07287C6.73245 2 6.49315 2 6.01453 2H3.46634C2.7196 2 2.34624 2 2.06102 2.14532C1.81014 2.27316 1.60616 2.47713 1.47833 2.72801C1.33301 3.01323 1.33301 3.3866 1.33301 4.13333V4.66667M1.33301 4.66667H11.4663C12.5864 4.66667 13.1465 4.66667 13.5743 4.88465C13.9506 5.0764 14.2566 5.38236 14.4484 5.75869C14.6663 6.18651 14.6663 6.74656 14.6663 7.86667V10.8C14.6663 11.9201 14.6663 12.4802 14.4484 12.908C14.2566 13.2843 13.9506 13.5903 13.5743 13.782C13.1465 14 12.5864 14 11.4663 14H4.53301C3.4129 14 2.85285 14 2.42503 13.782C2.0487 13.5903 1.74274 13.2843 1.55099 12.908C1.33301 12.4802 1.33301 11.9201 1.33301 10.8V4.66667Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <a href="#" class="campaign-item">Niluu summer campaign</a>
+              <button class="campaign-menu-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <circle cx="12" cy="5" r="2"></circle>
+                  <circle cx="12" cy="12" r="2"></circle>
+                  <circle cx="12" cy="19" r="2"></circle>
+                </svg>
+              </button>
+              <div class="campaign-dropdown">
+                <button class="rename-btn">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14 12L13.3332 12.7294C12.9796 13.1161 12.5001 13.3333 12.0001 13.3333C11.5001 13.3333 11.0205 13.1161 10.6669 12.7294C10.3128 12.3434 9.83332 12.1267 9.33345 12.1267C8.83359 12.1267 8.35409 12.3434 7.99998 12.7294M2 13.3333H3.11636C3.44248 13.3333 3.60554 13.3333 3.75899 13.2965C3.89504 13.2638 4.0251 13.21 4.1444 13.1368C4.27895 13.0544 4.39425 12.9391 4.62486 12.7085L13 4.33333C13.5523 3.78104 13.5523 2.88561 13 2.33333C12.4477 1.78104 11.5523 1.78104 11 2.33333L2.62484 10.7085C2.39424 10.9391 2.27894 11.0544 2.19648 11.1889C2.12338 11.3082 2.0695 11.4383 2.03684 11.5744C2 11.7278 2 11.8909 2 12.217V13.3333Z" stroke="#666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  Rename
+                </button>
+                <button class="delete-btn">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10.6667 3.99999V3.46666C10.6667 2.71992 10.6667 2.34656 10.5213 2.06134C10.3935 1.81046 10.1895 1.60648 9.93865 1.47865C9.65344 1.33333 9.28007 1.33333 8.53333 1.33333H7.46667C6.71993 1.33333 6.34656 1.33333 6.06135 1.47865C5.81046 1.60648 5.60649 1.81046 5.47866 2.06134C5.33333 2.34656 5.33333 2.71992 5.33333 3.46666V3.99999M6.66667 7.66666V11M9.33333 7.66666V11M2 3.99999H14M12.6667 3.99999V11.4667C12.6667 12.5868 12.6667 13.1468 12.4487 13.5746C12.2569 13.951 11.951 14.2569 11.5746 14.4487C11.1468 14.6667 10.5868 14.6667 9.46667 14.6667H6.53333C5.41323 14.6667 4.85318 14.6667 4.42535 14.4487C4.04903 14.2569 3.74307 13.951 3.55132 13.5746C3.33333 13.1468 3.33333 12.5868 3.33333 11.4667V3.99999" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  Delete
+                </button>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Dashboard Home View -->
+      <div class="dashboard-home" id="dashboardHome">
+        <div class="dashboard-inner">
+          <!-- Dashboard Header -->
+          <header class="dashboard-header">
+            <div class="dashboard-welcome">
+              <h1>Welcome back, Elisamar</h1>
+              <p class="dashboard-subtitle">Here's what needs your attention</p>
+            </div>
+          </header>
+
+          <!-- Stats Cards -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon pending-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+              </div>
+              <div class="stat-info">
+                <span class="stat-number" id="statPending">0</span>
+                <span class="stat-label">Pending Review</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon assets-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                  <polyline points="21 15 16 10 5 21"></polyline>
+                </svg>
+              </div>
+              <div class="stat-info">
+                <span class="stat-number" id="statAssets">0</span>
+                <span class="stat-label">Total Assets</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon comments-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+              </div>
+              <div class="stat-info">
+                <span class="stat-number" id="statComments">0</span>
+                <span class="stat-label">Comments</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon campaigns-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                </svg>
+              </div>
+              <div class="stat-info">
+                <span class="stat-number" id="statCampaigns">0</span>
+                <span class="stat-label">Active Campaigns</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tasks Section -->
+          <div class="dashboard-sections">
+            <!-- Pending Approvals -->
+            <section class="dashboard-section">
+              <div class="section-header">
+                <h2>Awaiting Your Review</h2>
+                <span class="section-count" id="pendingCount">0 items</span>
+              </div>
+              <div class="pending-assets-grid" id="pendingAssetsGrid">
+                <!-- Pending assets will be inserted here -->
+                <div class="empty-section" id="emptyPending">
+                  <p>No assets pending review</p>
+                </div>
+              </div>
+            </section>
+
+            <!-- Recent Comments -->
+            <section class="dashboard-section">
+              <div class="section-header">
+                <h2>Recent Comments</h2>
+                <span class="section-count" id="commentsCount">0 comments</span>
+              </div>
+              <div class="recent-comments-list" id="recentCommentsList">
+                <!-- Recent comments will be inserted here -->
+                <div class="empty-section" id="emptyComments">
+                  <p>No recent comments</p>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+
+      <!-- Campaign View -->
+      <div class="campaign-view" id="campaignView" style="display: none;">
+        <div class="main-content-inner">
+        <!-- Header -->
+        <header class="content-header">
+          <div class="header-row">
+            <div class="header-left">
+              <h1 class="campaign-title">Replica</h1>
+            </div>
+            <div class="header-right">
+              <button class="add-btn">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M8.00016 3.33325V12.6666M3.3335 7.99992H12.6668" stroke="#343637" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+              <div class="team-avatars">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face" alt="" class="team-avatar">
+                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face" alt="" class="team-avatar">
+                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" alt="" class="team-avatar">
+              </div>
+              <button class="share-btn">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M14 8V10.8C14 11.9201 14 12.4802 13.782 12.908C13.5903 13.2843 13.2843 13.5903 12.908 13.782C12.4802 14 11.9201 14 10.8 14H5.2C4.07989 14 3.51984 14 3.09202 13.782C2.71569 13.5903 2.40973 13.2843 2.21799 12.908C2 12.4802 2 11.9201 2 10.8V8M10.6667 4.66667L8 2M8 2L5.33333 4.66667M8 2V10" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>Share</span>
+              </button>
+            </div>
+          </div>
+        </header>
+
+        <!-- Content Area -->
+        <div class="content-area">
+          <!-- Empty State -->
+          <div class="empty-state" id="emptyState">
+            <div class="empty-upload-area" id="emptyUploadArea">
+              <input type="file" id="emptyFileInput" multiple accept="image/*,video/*,.pdf" hidden>
+              <div class="empty-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                  <path d="M26.6668 14V9.06663C26.6668 6.82642 26.6668 5.70631 26.2309 4.85066C25.8474 4.09802 25.2354 3.48609 24.4828 3.1026C23.6271 2.66663 22.507 2.66663 20.2668 2.66663H11.7335C9.49329 2.66663 8.37318 2.66663 7.51753 3.1026C6.76489 3.48609 6.15296 4.09802 5.76947 4.85066C5.3335 5.70631 5.3335 6.82642 5.3335 9.06663V22.9333C5.3335 25.1735 5.3335 26.2936 5.76947 27.1493C6.15296 27.9019 6.76489 28.5138 7.51753 28.8973C8.37318 29.3333 9.49329 29.3333 11.7335 29.3333H16.0002M18.6668 14.6666H10.6668M13.3335 20H10.6668M21.3335 9.33329H10.6668M24.0002 28V20M20.0002 24H28.0002" stroke="#4F5152" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <p class="empty-title">Drag & drop or <button class="upload-link-btn" id="browseBtn">click to upload</button> files</p>
+            </div>
+          </div>
+
+          <!-- Assets View (hidden by default for new campaigns) -->
+          <div class="assets-view" id="assetsView" style="display: none;">
+            <!-- Upload Content Area -->
+            <div class="upload-content-area" id="addAssetsArea">
+              <input type="file" id="addMoreFileInput" multiple accept="image/*,video/*" hidden>
+              <div class="upload-content-box">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <path d="M13.3337 10L10.0003 6.66667M10.0003 6.66667L6.66699 10M10.0003 6.66667V13.3333M18.3337 10C18.3337 14.6024 14.6027 18.3333 10.0003 18.3333C5.39795 18.3333 1.66699 14.6024 1.66699 10C1.66699 5.39763 5.39795 1.66667 10.0003 1.66667C14.6027 1.66667 18.3337 5.39763 18.3337 10Z" stroke="#343637" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span class="upload-content-text">Upload content</span>
+              </div>
+            </div>
+
+            <!-- Images Section -->
+            <section class="assets-section">
+              <h2 class="section-title">Images</h2>
+              <div class="assets-grid" id="imagesGrid">
+                <!-- Asset cards will be inserted here -->
+              </div>
+            </section>
+
+            <!-- Videos Section -->
+            <section class="assets-section">
+              <h2 class="section-title">Videos</h2>
+              <div class="assets-grid" id="videosGrid">
+                <!-- Video cards will be inserted here -->
+              </div>
+            </section>
+          </div>
+        </div>
+        </div>
+      </div>
+
+      <!-- Global Drop Overlay -->
+      <div class="drop-overlay" id="dropOverlay">
+        <div class="drop-overlay-content">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="17 8 12 3 7 8"></polyline>
+            <line x1="12" y1="3" x2="12" y2="15"></line>
+          </svg>
+          <p>Drop files to upload</p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Asset Detail View -->
+  <div class="asset-detail-overlay" id="assetDetailOverlay">
+    <div class="asset-detail-container">
+      <!-- Detail Header -->
+      <div class="detail-header">
+        <div class="detail-header-left">
+          <svg class="detail-logo" width="100" height="23" viewBox="0 0 237 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M27.2476 0.00195312C31.7645 -0.0551863 36.2859 1.11461 40.3521 3.06641H40.355C45.9177 5.73917 50.1856 10.5493 52.3755 16.3135C54.5882 22.4071 54.86 29.4069 53.1118 35.6104C51.732 40.4112 48.8329 44.8007 45.1099 48.1348C40.0024 52.8075 32.7735 54.3701 26.0093 54.1299C18.0551 53.9628 10.8327 50.892 5.92432 44.5557C3.33864 41.1141 1.40337 37.1069 0.499512 32.8896C-0.104535 29.9402 -0.146525 26.9541 0.297363 23.9863C0.67493 21.2335 1.21286 18.4119 2.18994 15.7666C4.16933 10.6248 8.28643 6.34315 13.0347 3.63379C17.3777 1.40282 22.334 0.228541 27.2056 0.00195312H27.2476ZM179.939 0.913086C184.248 0.478314 189.621 0.572112 190.836 5.59473C191.404 7.6542 191.334 10.0737 191.334 12.2705C191.309 14.9317 191.264 17.5722 191.213 20.2334C191.085 27.1349 191.31 34.0295 191.28 40.9424C191.172 44.3678 191.635 48.6653 189.303 51.3701C185.848 55.068 176.982 53.8416 173.374 50.583C170.738 48.4252 168.596 45.3405 166.443 42.6152C165.404 41.3178 163.918 39.3794 162.667 39.0361C159.871 38.4101 160.511 45.4593 160.038 47.2695C159.749 49.2626 158.953 51.3065 157.131 52.3477C154.127 54.1072 147.953 54.2629 145.203 52.1074C142.152 49.6566 142.868 44.9857 142.784 41.4434C142.759 34.9035 142.313 28.1941 142.48 21.6016C142.583 17.8283 142.558 14.0183 142.521 10.2656C142.526 7.5885 142.692 4.40109 144.852 2.63672C147.598 0.474267 152.534 0.615617 155.91 1.37305C158.269 1.90622 160.415 3.11892 162.15 4.80078C164.621 6.76415 168.885 14.7298 171.782 14.4346H171.799C174.188 13.7732 173.3 7.83281 174 5.7207C174.557 2.78723 176.992 1.22696 179.939 0.911133V0.913086ZM112.255 0.723633C114.2 0.703039 116.18 0.730465 118.157 0.730469C122.067 0.705298 125.885 0.823707 129.857 0.867188C132.287 0.908377 135.043 0.926812 137.208 1.99316C140.541 3.51267 141.354 7.87202 140.383 11.1328C139.66 13.7459 137.654 15.377 134.86 15.8828C132.13 16.4595 128.742 16.0801 126.09 16.8398C124.839 17.1694 122.798 18.0347 124.279 19.1719C126.688 20.6246 129.832 20.2582 132.548 20.7158C135.768 21.1735 138.138 23.1279 138.617 26.4434C139.136 30.1938 137.292 33.2946 133.361 33.9766C130.979 34.4731 128.219 34.2149 125.908 34.915C124.457 35.3773 123.61 35.8376 123.887 36.5996C124.462 37.5078 125.848 37.7252 127.097 37.9814L127.1 37.9883C131.434 38.6884 137.781 37.1053 140.051 42.0107C141.145 44.5301 141.153 47.9884 139.773 50.5078C138.894 52.0387 137.429 52.8691 135.663 53.2559C134.077 53.5899 132.299 53.6194 130.64 53.624C126.338 53.6126 121.953 53.5649 117.622 53.6152C116.093 53.6313 114.557 53.6468 113.036 53.6445C110.638 53.6537 107.848 53.5324 105.986 52.0107L105.96 51.9902C102.949 49.4456 103.327 44.6061 103.167 40.9082C103.075 36.7389 103.228 32.496 103.255 28.3496C103.221 22.5992 103.089 16.9377 103.304 11.2285C103.412 8.5627 103.341 5.29929 104.945 3.16211C106.574 0.979581 109.67 0.757964 112.255 0.723633ZM204.213 1.02734C209.284 0.933523 214.31 0.641312 219.438 0.709961C221.623 0.741995 223.81 0.783199 225.996 0.783203C229.245 0.856428 232.556 0.414526 235.002 2.63867L234.999 2.63672C236.586 4.23396 236.822 6.62736 236.783 8.8125C236.751 11.8421 235.728 14.8378 232.685 15.7715C230.85 16.4259 228.508 16.3818 226.708 17.2627C223.177 18.9491 223.458 23.4413 223.378 26.7891C223.323 28.6746 223.291 30.5537 223.241 32.4805C223.17 37.0319 223.268 41.6429 223.334 46.1943C223.382 53.8188 217.644 53.7179 211.545 53.6172C204.392 53.1733 205.586 46.7986 205.442 41.5332C205.492 37.1969 205.356 32.7755 205.463 28.4346C205.399 25.3339 206.015 21.5902 204.285 18.8809L204.266 18.8535C202.415 15.9428 198.081 16.7551 195.44 14.9199C194.056 13.9428 193.372 12.38 193.079 10.7188C192.655 7.81721 192.253 3.29779 195.339 1.78516C197.939 0.576944 201.204 1.112 204.213 1.02734ZM93.0542 0.53125C95.5347 0.615917 101.471 0.334302 102.121 3.26562C102.512 4.81467 101.029 7.28794 99.979 8.78223C98.066 11.5579 96.1891 14.4003 94.228 17.2012C93.5049 18.2355 92.7982 19.2771 92.2124 20.3252C89.6793 24.5036 89.9494 28.1508 92.7183 32.4551V32.4531C94.3132 35.0457 96.0522 37.5516 97.7661 40.0732C99.4687 42.8032 103.588 47.2497 103.505 50.3457V50.3701C103.18 53.4134 98.7572 53.3794 96.3452 53.4961C89.5696 53.7181 84.3956 53.3062 80.1646 47.501C78.9655 46.0571 77.535 43.7644 75.9126 43.4531C74.1437 43.1625 73.9791 47.2422 73.2651 48.8418C72.1851 52.4161 68.5667 53.3814 65.1411 53.4912C61.0429 53.5941 56.4849 53.0932 55.6909 48.2559C55.1212 44.4986 55.5444 40.5766 55.4712 36.7461C55.5192 30.0848 55.3682 23.3156 55.4712 16.6406C55.4712 14.5514 55.4642 12.4778 55.5054 10.4092C55.5672 7.36813 55.7942 3.91486 58.4233 2.16211C61.0732 0.432413 65.2746 0.430318 68.311 1.05957C73.2834 2.27927 73.0023 5.65482 74.5903 9.47168C75.5285 11.2081 76.7796 10.3383 78.0015 9.06152C79.0312 7.96087 80.146 6.29999 81.2329 5.09863C84.1848 1.5106 88.4067 0.464911 93.0542 0.53125ZM31.2476 18.707C24.854 15.2677 18.4923 20.094 18.6479 27.0527V27.0986C18.6184 33.4966 23.9773 38.2854 30.27 36.1436L30.2681 36.1416C37.5193 33.455 37.9885 22.341 31.2476 18.707Z" fill="#1A1A1A"/>
+          </svg>
+          <button class="back-btn" id="backToAssets">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M10 12L6 8L10 4" stroke="#343637" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="detail-breadcrumb-wrapper">
+            <span class="detail-campaign-name" id="detailCampaignName">Campaign</span>
+            <span class="detail-separator">/</span>
+            <div class="detail-filename-wrapper">
+              <span class="detail-filename" id="detailFilename">filename.jpg</span>
+              <input type="text" class="detail-filename-input" id="detailFilenameInput">
+            </div>
+            <button class="save-filename-btn" id="saveFilenameBtn">Save</button>
+          </div>
+        </div>
+        <div class="detail-status">
+          <span class="status-badge pending" id="detailStatus">Pending</span>
+        </div>
+      </div>
+
+      <!-- Detail Content -->
+      <div class="detail-content">
+        <!-- Image Area -->
+        <div class="detail-image-area">
+          <button class="nav-btn nav-prev" id="navPrev">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          <div class="detail-image-container" id="detailImageContainer">
+            <img src="" alt="" id="detailImage">
+            <!-- Comment pins will be added here dynamically -->
+          </div>
+          <div class="theme-toggle dark-active" id="themeToggle">
+            <div class="theme-toggle-slider"></div>
+            <button class="theme-btn light-btn" data-theme="light">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_sun)">
+                  <path d="M8.00016 1.33331V2.66665M8.00016 13.3333V14.6666M2.66683 7.99998H1.3335M4.20957 4.20939L3.26676 3.26658M11.7908 4.20939L12.7336 3.26658M4.20957 11.7933L3.26676 12.7361M11.7908 11.7933L12.7336 12.7361M14.6668 7.99998H13.3335M11.3335 7.99998C11.3335 9.84093 9.84111 11.3333 8.00016 11.3333C6.15921 11.3333 4.66683 9.84093 4.66683 7.99998C4.66683 6.15903 6.15921 4.66665 8.00016 4.66665C9.84111 4.66665 11.3335 6.15903 11.3335 7.99998Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </g>
+                <defs>
+                  <clipPath id="clip0_sun">
+                    <rect width="16" height="16" fill="white"/>
+                  </clipPath>
+                </defs>
+              </svg>
+            </button>
+            <button class="theme-btn dark-btn active" data-theme="dark">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_moon)">
+                  <path d="M14.6668 10.5628C13.7912 10.9588 12.8193 11.1792 11.7958 11.1792C7.94369 11.1792 4.82093 8.05645 4.82093 4.20434C4.82093 3.18088 5.04137 2.20891 5.43735 1.33331C3.01734 2.42773 1.3335 4.86311 1.3335 7.69177C1.3335 11.5439 4.45625 14.6666 8.30837 14.6666C11.137 14.6666 13.5724 12.9828 14.6668 10.5628Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </g>
+                <defs>
+                  <clipPath id="clip0_moon">
+                    <rect width="16" height="16" fill="white"/>
+                  </clipPath>
+                </defs>
+              </svg>
+            </button>
+          </div>
+          <button class="nav-btn nav-next" id="navNext">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Comments Sidebar -->
+        <div class="comments-sidebar">
+          <div class="comments-header">
+            <h3>Comments</h3>
+            <button class="toggle-comments-btn" id="toggleCommentsBtn">
+              <svg class="eye-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M1.61342 8.47537C1.52262 8.33161 1.47723 8.25973 1.45182 8.14886C1.43273 8.06559 1.43273 7.93425 1.45182 7.85097C1.47723 7.74011 1.52262 7.66823 1.61341 7.52447C2.36369 6.33648 4.59693 3.33325 8.00027 3.33325C11.4036 3.33325 13.6369 6.33648 14.3871 7.52447C14.4779 7.66823 14.5233 7.74011 14.5487 7.85097C14.5678 7.93425 14.5678 8.06559 14.5487 8.14886C14.5233 8.25973 14.4779 8.33161 14.3871 8.47537C13.6369 9.66336 11.4036 12.6666 8.00027 12.6666C4.59693 12.6666 2.36369 9.66336 1.61342 8.47537Z" stroke="#343637" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M8.00027 9.99992C9.10484 9.99992 10.0003 9.10449 10.0003 7.99992C10.0003 6.89535 9.10484 5.99992 8.00027 5.99992C6.8957 5.99992 6.00027 6.89535 6.00027 7.99992C6.00027 9.10449 6.8957 9.99992 8.00027 9.99992Z" stroke="#343637" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <svg class="eye-off-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" style="display: none;">
+                <path d="M7.16196 3.39488C7.4329 3.35482 7.7124 3.33333 8.00028 3.33333C11.4036 3.33333 13.6369 6.33656 14.3871 7.52455C14.4779 7.66833 14.5233 7.74023 14.5488 7.85112C14.5678 7.93439 14.5678 8.06578 14.5487 8.14905C14.5233 8.25993 14.4776 8.3323 14.3861 8.47705C14.1862 8.79343 13.8814 9.23807 13.4777 9.7203M4.48288 4.47669C3.0415 5.45447 2.06297 6.81292 1.61407 7.52352C1.52286 7.66791 1.47725 7.74011 1.45183 7.85099C1.43273 7.93426 1.43272 8.06563 1.45181 8.14891C1.47722 8.25979 1.52262 8.33168 1.61342 8.47545C2.36369 9.66344 4.59694 12.6667 8.00028 12.6667C9.37255 12.6667 10.5546 12.1784 11.5259 11.5177M2.00028 2L14.0003 14M6.58606 6.58579C6.22413 6.94772 6.00028 7.44772 6.00028 8C6.00028 9.10457 6.89571 10 8.00028 10C8.55256 10 9.05256 9.77614 9.41449 9.41421" stroke="#343637" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+          <div class="comments-list" id="commentsList">
+            <!-- Comments will be added here dynamically -->
+          </div>
+          <div class="comment-input-wrapper">
+            <div class="comment-input-container" id="sidebarCommentInput">
+              <div class="mention-dropdown" id="sidebarMentionDropdown"></div>
+              <textarea placeholder="Add a comment (@ to mention)" id="sidebarCommentTextarea"></textarea>
+              <button class="comment-send-btn" id="sidebarCommentSubmit">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7.87464 10.125L15.7496 2.25001M7.97033 10.3711L9.94141 15.4396C10.1151 15.8861 10.2019 16.1093 10.327 16.1745C10.4354 16.231 10.5646 16.2311 10.6731 16.1747C10.7983 16.1097 10.8854 15.8865 11.0596 15.4402L16.0023 2.77441C16.1595 2.37152 16.2381 2.17008 16.1951 2.04136C16.1578 1.92957 16.0701 1.84184 15.9583 1.8045C15.8296 1.7615 15.6281 1.84011 15.2252 1.99733L2.55943 6.94009C2.11313 7.11426 1.88997 7.20134 1.82494 7.32652C1.76857 7.43503 1.76864 7.56422 1.82515 7.67267C1.89033 7.79777 2.11358 7.88459 2.56009 8.05824L7.62859 10.0293C7.71923 10.0646 7.76455 10.0822 7.80271 10.1094C7.83653 10.1335 7.86611 10.1631 7.89024 10.1969C7.91746 10.2351 7.93508 10.2804 7.97033 10.3711Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Create Campaign Modal -->
+  <div class="modal-overlay" id="createCampaignModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Create campaign</h2>
+        <button class="modal-close" id="closeModal">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="text" class="modal-input" id="campaignName" placeholder="Campaign name">
+        <input type="text" class="modal-input" id="campaignPeople" placeholder="Add people to this campaign">
+
+        <div class="upload-area" id="briefUploadArea">
+          <input type="file" id="briefFileInput" accept=".pdf,.doc,.docx" hidden>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="17 8 12 3 7 8"></polyline>
+            <line x1="12" y1="3" x2="12" y2="15"></line>
+          </svg>
+          <p class="upload-title">Upload campaign brief</p>
+          <p class="upload-subtitle">Click to upload or drag & drop</p>
+          <p class="upload-filename" id="briefFilename"></p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="create-btn" id="createCampaignBtn">Create campaign</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Share Modal -->
+  <div class="modal-overlay" id="shareModal">
+    <div class="modal share-modal">
+      <div class="modal-header">
+        <h2>Share campaign</h2>
+        <button class="modal-close" id="closeShareModal">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="share-section">
+          <label class="share-label">Invite via email</label>
+          <div class="share-email-input-wrapper">
+            <input type="email" class="modal-input share-email-input" id="shareEmailInput" placeholder="Enter email address">
+            <button class="invite-btn" id="inviteBtn">Invite</button>
+          </div>
+        </div>
+
+        <div class="share-divider">
+          <span>or</span>
+        </div>
+
+        <div class="share-section">
+          <label class="share-label">Share link</label>
+          <div class="share-link-wrapper">
+            <input type="text" class="modal-input share-link-input" id="shareLinkInput" readonly>
+            <button class="copy-link-btn" id="copyLinkBtn">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5.33333 5.33333V3.46667C5.33333 2.71993 5.33333 2.34656 5.47866 2.06135C5.60649 1.81046 5.81046 1.60649 6.06135 1.47866C6.34656 1.33333 6.71993 1.33333 7.46667 1.33333H12.5333C13.2801 1.33333 13.6534 1.33333 13.9387 1.47866C14.1895 1.60649 14.3935 1.81046 14.5213 2.06135C14.6667 2.34656 14.6667 2.71993 14.6667 3.46667V8.53333C14.6667 9.28007 14.6667 9.65344 14.5213 9.93865C14.3935 10.1895 14.1895 10.3935 13.9387 10.5213C13.6534 10.6667 13.2801 10.6667 12.5333 10.6667H10.6667M3.46667 14.6667H8.53333C9.28007 14.6667 9.65344 14.6667 9.93865 14.5213C10.1895 14.3935 10.3935 14.1895 10.5213 13.9387C10.6667 13.6534 10.6667 13.2801 10.6667 12.5333V7.46667C10.6667 6.71993 10.6667 6.34656 10.5213 6.06135C10.3935 5.81046 10.1895 5.60649 9.93865 5.47866C9.65344 5.33333 9.28007 5.33333 8.53333 5.33333H3.46667C2.71993 5.33333 2.34656 5.33333 2.06135 5.47866C1.81046 5.60649 1.60649 5.81046 1.47866 6.06135C1.33333 6.34656 1.33333 6.71993 1.33333 7.46667V12.5333C1.33333 13.2801 1.33333 13.6534 1.47866 13.9387C1.60649 14.1895 1.81046 14.3935 2.06135 14.5213C2.34656 14.6667 2.71993 14.6667 3.46667 14.6667Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span>Copy</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>
