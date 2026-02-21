@@ -256,49 +256,172 @@
 
         <!-- Content Area -->
         <div class="content-area">
-          <!-- Empty State -->
-          <div class="empty-state" id="emptyState">
-            <div class="empty-upload-area" id="emptyUploadArea">
-              <input type="file" id="emptyFileInput" multiple accept="image/*,video/*,.pdf" hidden>
-              <div class="empty-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                  <path d="M26.6668 14V9.06663C26.6668 6.82642 26.6668 5.70631 26.2309 4.85066C25.8474 4.09802 25.2354 3.48609 24.4828 3.1026C23.6271 2.66663 22.507 2.66663 20.2668 2.66663H11.7335C9.49329 2.66663 8.37318 2.66663 7.51753 3.1026C6.76489 3.48609 6.15296 4.09802 5.76947 4.85066C5.3335 5.70631 5.3335 6.82642 5.3335 9.06663V22.9333C5.3335 25.1735 5.3335 26.2936 5.76947 27.1493C6.15296 27.9019 6.76489 28.5138 7.51753 28.8973C8.37318 29.3333 9.49329 29.3333 11.7335 29.3333H16.0002M18.6668 14.6666H10.6668M13.3335 20H10.6668M21.3335 9.33329H10.6668M24.0002 28V20M20.0002 24H28.0002" stroke="#4F5152" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+          <input type="file" id="emptyFileInput" multiple accept="image/*,video/*,.pdf" hidden>
+
+          <!-- Content Type Picker (always visible) -->
+          <div class="content-picker-section" id="contentPickerSection">
+            <p class="content-picker-title">What would you like to add for Replica?</p>
+            <div class="content-type-cards">
+              <div class="content-type-card" data-type="reel">
+                <div class="content-type-icon">
+                  <img src="/images/icon-reel.svg" alt="Reel" width="24" height="24">
+                </div>
+                <span class="content-type-label">Reel</span>
               </div>
-              <p class="empty-title">Drag & drop or <button class="upload-link-btn" id="browseBtn">click to upload</button> files</p>
+              <div class="content-type-card" data-type="stories">
+                <div class="content-type-icon">
+                  <img src="/images/icon-stories.svg" alt="Stories" width="24" height="24">
+                </div>
+                <span class="content-type-label">Stories</span>
+              </div>
+              <div class="content-type-card" data-type="photo">
+                <div class="content-type-icon">
+                  <img src="/images/icon-photo.svg" alt="Photo" width="24" height="24">
+                </div>
+                <span class="content-type-label">Image</span>
+              </div>
+              <div class="content-type-card" data-type="carrousel">
+                <div class="content-type-icon">
+                  <img src="/images/icon-carrousel.svg" alt="Carrousel" width="24" height="24">
+                </div>
+                <span class="content-type-label">Carrousel</span>
+              </div>
             </div>
           </div>
 
-          <!-- Assets View (hidden by default for new campaigns) -->
-          <div class="assets-view" id="assetsView" style="display: none;">
-            <!-- Upload Content Area -->
-            <div class="upload-content-area" id="addAssetsArea">
-              <input type="file" id="addMoreFileInput" multiple accept="image/*,video/*" hidden>
-              <div class="upload-content-box">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                  <path d="M13.3337 10L10.0003 6.66667M10.0003 6.66667L6.66699 10M10.0003 6.66667V13.3333M18.3337 10C18.3337 14.6024 14.6027 18.3333 10.0003 18.3333C5.39795 18.3333 1.66699 14.6024 1.66699 10C1.66699 5.39763 5.39795 1.66667 10.0003 1.66667C14.6027 1.66667 18.3337 5.39763 18.3337 10Z" stroke="#343637" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <span class="upload-content-text">Upload content</span>
-              </div>
+          <!-- Reel Content Section (shown when reels exist) -->
+          <div class="reel-content-section" id="reelContentSection" style="display: none;">
+            <h2 class="reel-content-title">Reel</h2>
+            <div class="reel-content-cards" id="reelContentCards">
+              <!-- Reel cards rendered by JS -->
             </div>
-
-            <!-- Images Section -->
-            <section class="assets-section">
-              <h2 class="section-title">Images</h2>
-              <div class="assets-grid" id="imagesGrid">
-                <!-- Asset cards will be inserted here -->
-              </div>
-            </section>
-
-            <!-- Videos Section -->
-            <section class="assets-section">
-              <h2 class="section-title">Videos</h2>
-              <div class="assets-grid" id="videosGrid">
-                <!-- Video cards will be inserted here -->
-              </div>
-            </section>
           </div>
         </div>
+
+        <!-- Reel Upload Header -->
+        <header class="reel-upload-header" id="reelUploadHeader" style="display: none;">
+          <button class="reel-close-btn" id="reelCloseBtn">
+            <img src="/images/x.svg" alt="Close" width="16" height="16">
+          </button>
+          <div class="reel-header-label">
+            <img src="/images/reel-reels-icon.svg" alt="Reel" width="24" height="24">
+            <span>Instagram Reel</span>
+          </div>
+        </header>
+
+        <!-- Reel Upload View -->
+        <div class="reel-upload-view" id="reelUploadView" style="display: none;">
+          <div class="reel-preview-area">
+            <div class="reel-preview-column">
+              <!-- Phone Mockup -->
+              <div class="phone-mockup">
+                <div class="phone-mockup-empty" id="reelPhonePreview">
+                  <!-- Reel overlay UI (decorative) -->
+                  <div class="reel-overlay">
+                    <!-- Right side actions panel -->
+                    <div class="reel-overlay-actions">
+                      <div class="reel-actions-group">
+                        <div class="reel-action-item">
+                          <img src="/images/reel-like.svg" alt="Like">
+                        </div>
+                        <div class="reel-action-item">
+                          <img src="/images/reel-comment.svg" alt="Comment">
+                        </div>
+                        <div class="reel-action-item">
+                          <img src="/images/reel-send.svg" alt="Share">
+                        </div>
+                        <div class="reel-action-item">
+                          <img src="/images/reel-share.svg" alt="Repost">
+                        </div>
+                      </div>
+                      <div class="reel-action-item">
+                        <img src="/images/reel-options.svg" alt="Options">
+                      </div>
+                      <div class="reel-audio-thumb">
+                        <img src="https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/90/5e/7e/905e7ed5-a8fa-a8f3-cd06-0028fdf3afaa/199066342442.jpg/60x60bb.jpg" alt="Album">
+                      </div>
+                    </div>
+
+                    <!-- Bottom section: user info + caption -->
+                    <div class="reel-overlay-bottom">
+                      <div class="reel-overlay-userinfo">
+                        <div class="reel-user-avatar"></div>
+                        <div class="reel-user-text-col">
+                          <div class="reel-user-name-row">
+                            <span class="reel-username">username</span>
+                            <svg class="reel-verified-badge" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <circle cx="8" cy="8" r="6" fill="#3897F0"/>
+                              <path d="M5.5 8L7 9.5L10.5 6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                          </div>
+                          <div class="reel-audio-bar">
+                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M3.5 3.5L7 3.5M7 3.5L7 7M7 3.5L3.5 7" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span class="reel-audio-name">BAILE INoLVIDABLE</span>
+                          </div>
+                        </div>
+                      </div>
+                      <p class="reel-caption-preview reel-caption-placeholder">Write my caption...</p>
+                    </div>
+                  </div>
+                  <!-- Timeline tracker -->
+                  <div class="reel-timeline-track" id="reelTimelineTrack">
+                    <div class="reel-timeline-progress" id="reelTimelineProgress"></div>
+                  </div>
+                </div>
+              </div>
+              <!-- Bottom Tabs -->
+              <div class="reel-tabs">
+                <button class="reel-tab active" data-tab="reel">Reel</button>
+                <button class="reel-tab" data-tab="cover">Cover Image</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Sidebar -->
+          <div class="reel-sidebar">
+            <div class="reel-sidebar-content">
+              <!-- Cover Image Section -->
+              <div class="reel-upload-section">
+                <label class="reel-upload-label">Cover Image</label>
+                <div class="reel-upload-row">
+                  <div class="reel-upload-icon-box" id="reelCoverPreviewBox">
+                    <img src="/images/reel-image.svg" alt="Image" width="20" height="20" class="reel-icon-default">
+                  </div>
+                  <input type="file" id="reelCoverInput" accept="image/*" hidden>
+                  <button class="reel-upload-btn" id="reelCoverUploadBtn">Upload</button>
+                </div>
+              </div>
+
+              <div class="reel-sidebar-divider"></div>
+
+              <!-- Video Section -->
+              <div class="reel-upload-section">
+                <label class="reel-upload-label">Video</label>
+                <div class="reel-upload-row">
+                  <div class="reel-upload-icon-box" id="reelVideoPreviewBox">
+                    <img src="/images/reel-film.svg" alt="Video" width="20" height="20" class="reel-icon-default">
+                  </div>
+                  <input type="file" id="reelVideoInput" accept="video/*" hidden>
+                  <button class="reel-upload-btn" id="reelVideoUploadBtn">Upload</button>
+                </div>
+              </div>
+
+              <div class="reel-sidebar-divider"></div>
+
+              <!-- Caption Section -->
+              <div class="reel-upload-section">
+                <label class="reel-upload-label">Caption</label>
+                <textarea class="reel-caption-textarea" id="reelCaptionTextarea" placeholder="Write my caption..."></textarea>
+              </div>
+            </div>
+
+            <!-- Save Button -->
+            <button class="reel-save-btn" id="reelSaveBtn" disabled>Save Content</button>
+          </div>
+        </div>
+
         </div>
       </div>
 

@@ -209,33 +209,67 @@ function createAssetCard(asset, isVideo = false) {
 }
 
 function renderAssets() {
-  const imagesGrid = document.getElementById('imagesGrid');
-  const videosGrid = document.getElementById('videosGrid');
+  const reelContentSection = document.getElementById('reelContentSection');
+  const reelContentCards = document.getElementById('reelContentCards');
+  const contentArea = document.querySelector('.content-area');
+  const pickerSection = document.getElementById('contentPickerSection');
+  const pickerTitle = pickerSection ? pickerSection.querySelector('.content-picker-title') : null;
   const campaign = campaigns[currentCampaign];
 
   if (!campaign) return;
 
-  const images = campaign.images || [];
-  const videos = campaign.videos || [];
-
-  if (imagesGrid) {
-    if (images.length > 0) {
-      imagesGrid.innerHTML = images.map(img => createAssetCard(img)).join('');
-      imagesGrid.parentElement.style.display = 'block';
-    } else {
-      imagesGrid.innerHTML = '';
-      imagesGrid.parentElement.style.display = 'none';
-    }
+  // Update picker title with campaign name
+  if (pickerTitle) {
+    pickerTitle.textContent = `What would you like to add for ${currentCampaign}?`;
   }
 
-  if (videosGrid) {
-    if (videos.length > 0) {
-      videosGrid.innerHTML = videos.map(vid => createAssetCard(vid, true)).join('');
-      videosGrid.parentElement.style.display = 'block';
-    } else {
-      videosGrid.innerHTML = '';
-      videosGrid.parentElement.style.display = 'none';
-    }
+  const videos = campaign.videos || [];
+  const images = campaign.images || [];
+  const hasContent = videos.length > 0 || images.length > 0;
+
+  // Toggle empty state styling
+  if (contentArea) {
+    contentArea.classList.toggle('empty-state', !hasContent);
+  }
+  if (pickerSection) {
+    pickerSection.classList.toggle('empty-state', !hasContent);
+  }
+
+  // Render reel cards if any videos or cover images exist
+  if (hasContent) {
+    if (reelContentSection) reelContentSection.style.display = 'flex';
+
+    let cardsHTML = '';
+
+    // Render video cards (Reel)
+    videos.forEach(vid => {
+      cardsHTML += `
+        <div class="reel-content-card" data-id="${vid.id}">
+          <img class="reel-content-card-img" src="${vid.thumbnail}" alt="${vid.filename}">
+          <div class="reel-content-card-overlay">
+            <img src="/images/reel-film.svg" alt="Reel">
+            <span>Reel</span>
+          </div>
+        </div>
+      `;
+    });
+
+    // Render cover image cards (Reel Cover Image)
+    images.forEach(img => {
+      cardsHTML += `
+        <div class="reel-content-card" data-id="${img.id}">
+          <img class="reel-content-card-img" src="${img.thumbnail}" alt="${img.filename}">
+          <div class="reel-content-card-overlay">
+            <img src="/images/reel-image.svg" alt="Cover">
+            <span>Reel Cover Image</span>
+          </div>
+        </div>
+      `;
+    });
+
+    if (reelContentCards) reelContentCards.innerHTML = cardsHTML;
+  } else {
+    if (reelContentSection) reelContentSection.style.display = 'none';
   }
 }
 
@@ -247,6 +281,9 @@ function showDashboard() {
 
   dashboardHome.style.display = 'flex';
   campaignView.style.display = 'none';
+
+  // Hide reel view if open
+  hideReelUploadView();
 
   // Remove active state from all campaigns and wrappers
   document.querySelectorAll('.campaign-item').forEach(item => {
@@ -444,21 +481,20 @@ function switchCampaign(name) {
   // Update title
   document.querySelector('.campaign-title').textContent = name;
 
+  // Hide reel upload view when switching campaigns
+  hideReelUploadView();
+
   // Show/hide content based on campaign
-  const emptyState = document.getElementById('emptyState');
-  const assetsView = document.getElementById('assetsView');
   const briefLink = document.querySelector('.brief-link');
 
   if (campaigns[name] && campaigns[name].hasContent) {
-    emptyState.style.display = 'none';
-    assetsView.style.display = 'block';
     if (briefLink) briefLink.style.display = 'inline-flex';
-    renderAssets();
   } else {
-    emptyState.style.display = 'flex';
-    assetsView.style.display = 'none';
     if (briefLink) briefLink.style.display = 'none';
   }
+
+  // Always call renderAssets to update title, empty state, and cards
+  renderAssets();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -473,6 +509,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initGlobalDragDrop();
   initAssetDetailView();
   initAssetCardClicks();
+  initReelUploadView();
 
   // Initialize with current campaign (make sure it exists)
   if (!campaigns[currentCampaign]) {
@@ -779,43 +816,28 @@ function initCreateCampaignModal() {
 }
 
 function initEmptyStateUpload() {
-  const uploadArea = document.getElementById('emptyUploadArea');
+  const pickerSection = document.getElementById('contentPickerSection');
   const fileInput = document.getElementById('emptyFileInput');
-  const browseBtn = document.getElementById('browseBtn');
 
-  // Browse button click
-  browseBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    fileInput.click();
-  });
+  if (!pickerSection || !fileInput) return;
 
-  // Upload area click
-  uploadArea.addEventListener('click', () => {
-    fileInput.click();
+  // Content type card clicks
+  const contentTypeCards = pickerSection.querySelectorAll('.content-type-card');
+  contentTypeCards.forEach(card => {
+    card.addEventListener('click', () => {
+      const type = card.dataset.type;
+      if (type === 'reel') {
+        showReelUploadView();
+        return;
+      }
+      fileInput.click();
+    });
   });
 
   // File input change
   fileInput.addEventListener('change', (e) => {
     if (e.target.files.length > 0) {
       handleFilesUpload(e.target.files);
-    }
-  });
-
-  // Drag and drop
-  uploadArea.addEventListener('dragover', (e) => {
-    e.preventDefault();
-    uploadArea.classList.add('dragover');
-  });
-
-  uploadArea.addEventListener('dragleave', () => {
-    uploadArea.classList.remove('dragover');
-  });
-
-  uploadArea.addEventListener('drop', (e) => {
-    e.preventDefault();
-    uploadArea.classList.remove('dragover');
-    if (e.dataTransfer.files.length > 0) {
-      handleFilesUpload(e.dataTransfer.files);
     }
   });
 }
@@ -2299,5 +2321,408 @@ function copyToClipboard(text) {
     textarea.select();
     document.execCommand('copy');
     document.body.removeChild(textarea);
+  }
+}
+
+// ============================================
+// Reel Upload View
+// ============================================
+
+let reelState = {
+  coverFile: null,
+  coverDataUrl: null,
+  videoFile: null,
+  videoObjectUrl: null,
+  videoThumbUrl: null,
+  activeTab: 'reel'
+};
+
+function showReelUploadView() {
+  const contentArea = document.querySelector('.content-area');
+  const reelView = document.getElementById('reelUploadView');
+  const contentHeader = document.querySelector('.content-header');
+  const reelHeader = document.getElementById('reelUploadHeader');
+
+  if (contentArea) contentArea.style.display = 'none';
+  if (contentHeader) contentHeader.style.display = 'none';
+  if (reelView) reelView.style.display = 'flex';
+  if (reelHeader) reelHeader.style.display = 'flex';
+
+  // Reset reel state
+  resetReelState();
+}
+
+function hideReelUploadView() {
+  const contentArea = document.querySelector('.content-area');
+  const reelView = document.getElementById('reelUploadView');
+  const contentHeader = document.querySelector('.content-header');
+  const reelHeader = document.getElementById('reelUploadHeader');
+
+  if (reelView) reelView.style.display = 'none';
+  if (reelHeader) reelHeader.style.display = 'none';
+  // Restore content area and header
+  if (contentArea) contentArea.style.display = 'flex';
+  if (contentHeader) contentHeader.style.display = 'flex';
+
+  resetReelState();
+}
+
+function resetReelState() {
+  // Revoke old object URL to free memory
+  if (reelState.videoObjectUrl) {
+    URL.revokeObjectURL(reelState.videoObjectUrl);
+  }
+  reelState = { coverFile: null, coverDataUrl: null, videoFile: null, videoObjectUrl: null, videoThumbUrl: null, activeTab: 'reel' };
+
+  const coverBox = document.getElementById('reelCoverPreviewBox');
+  const videoBox = document.getElementById('reelVideoPreviewBox');
+  const captionTextarea = document.getElementById('reelCaptionTextarea');
+  const saveBtn = document.getElementById('reelSaveBtn');
+  const phonePreview = document.getElementById('reelPhonePreview');
+
+  if (coverBox) {
+    coverBox.innerHTML = `<img src="/images/reel-image.svg" alt="Image" width="20" height="20" class="reel-icon-default">`;
+  }
+  if (videoBox) {
+    videoBox.innerHTML = `<img src="/images/reel-film.svg" alt="Video" width="20" height="20" class="reel-icon-default">`;
+  }
+  if (captionTextarea) captionTextarea.value = '';
+  if (saveBtn) {
+    saveBtn.disabled = true;
+    saveBtn.classList.remove('enabled');
+  }
+  if (phonePreview) {
+    phonePreview.style.backgroundImage = '';
+    phonePreview.classList.remove('has-cover');
+    // Remove any video element
+    const existingVideo = phonePreview.querySelector('.reel-phone-video');
+    if (existingVideo) existingVideo.remove();
+    // Remove any cover image element
+    const existingCoverImg = phonePreview.querySelector('.reel-phone-cover');
+    if (existingCoverImg) existingCoverImg.remove();
+  }
+
+  // Reset timeline
+  cleanupReelTimeline();
+  const timelineTrack = document.getElementById('reelTimelineTrack');
+  const timelineProgress = document.getElementById('reelTimelineProgress');
+  if (timelineTrack) timelineTrack.style.display = 'none';
+  if (timelineProgress) timelineProgress.style.width = '0%';
+
+  // Reset caption preview to placeholder
+  const captionPreview = document.querySelector('.reel-caption-preview');
+  if (captionPreview) {
+    captionPreview.textContent = 'Write my caption...';
+    captionPreview.classList.add('reel-caption-placeholder');
+  }
+
+  // Reset tabs
+  const reelTabs = document.querySelectorAll('.reel-tab');
+  reelTabs.forEach(t => {
+    t.classList.toggle('active', t.dataset.tab === 'reel');
+  });
+}
+
+function updatePhonePreview() {
+  const phonePreview = document.getElementById('reelPhonePreview');
+  if (!phonePreview) return;
+
+  const activeTab = reelState.activeTab || 'reel';
+
+  // Remove existing media elements
+  const existingVideo = phonePreview.querySelector('.reel-phone-video');
+  const existingCoverImg = phonePreview.querySelector('.reel-phone-cover');
+  if (existingVideo) existingVideo.remove();
+  if (existingCoverImg) existingCoverImg.remove();
+
+  // Reset background
+  phonePreview.style.backgroundImage = '';
+  phonePreview.classList.remove('has-cover');
+
+  const overlay = phonePreview.querySelector('.reel-overlay');
+  const timelineTrack = document.getElementById('reelTimelineTrack');
+  const timelineProgress = document.getElementById('reelTimelineProgress');
+
+  if (activeTab === 'reel') {
+    // Show overlay for reel tab
+    if (overlay) overlay.style.display = 'flex';
+
+    // Show video if uploaded, else show cover as background, else gray
+    if (reelState.videoObjectUrl) {
+      const video = document.createElement('video');
+      video.className = 'reel-phone-video';
+      video.src = reelState.videoObjectUrl;
+      video.autoplay = true;
+      video.muted = true;
+      video.loop = true;
+      video.playsInline = true;
+      phonePreview.insertBefore(video, overlay);
+
+      // Show timeline and bind it to video
+      if (timelineTrack) timelineTrack.style.display = 'block';
+      if (timelineProgress) timelineProgress.style.width = '0%';
+      initReelTimeline(video);
+    } else {
+      // No video — hide timeline
+      if (timelineTrack) timelineTrack.style.display = 'none';
+      if (timelineProgress) timelineProgress.style.width = '0%';
+      cleanupReelTimeline();
+
+      if (reelState.coverDataUrl) {
+        phonePreview.style.backgroundImage = `url(${reelState.coverDataUrl})`;
+        phonePreview.classList.add('has-cover');
+      }
+    }
+  } else if (activeTab === 'cover') {
+    // Hide overlay for cover image tab — just show the image
+    if (overlay) overlay.style.display = 'none';
+    // Hide timeline on cover tab
+    if (timelineTrack) timelineTrack.style.display = 'none';
+    cleanupReelTimeline();
+
+    if (reelState.coverDataUrl) {
+      const img = document.createElement('img');
+      img.className = 'reel-phone-cover';
+      img.src = reelState.coverDataUrl;
+      img.alt = 'Cover Image';
+      phonePreview.appendChild(img);
+    }
+  }
+}
+
+// --- Reel Timeline Scrubbing ---
+let _reelTimelineState = { video: null, onTimeUpdate: null, isScrubbing: false };
+
+function initReelTimeline(videoEl) {
+  cleanupReelTimeline();
+
+  const track = document.getElementById('reelTimelineTrack');
+  const progress = document.getElementById('reelTimelineProgress');
+  if (!track || !progress || !videoEl) return;
+
+  _reelTimelineState.video = videoEl;
+
+  // Update progress bar as video plays
+  _reelTimelineState.onTimeUpdate = () => {
+    if (_reelTimelineState.isScrubbing) return;
+    if (videoEl.duration) {
+      const pct = (videoEl.currentTime / videoEl.duration) * 100;
+      progress.style.width = pct + '%';
+    }
+  };
+  videoEl.addEventListener('timeupdate', _reelTimelineState.onTimeUpdate);
+
+  // Seek to position based on click/drag X coordinate
+  function seekToX(e) {
+    const rect = track.getBoundingClientRect();
+    const x = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
+    const pct = x / rect.width;
+    if (videoEl.duration) {
+      videoEl.currentTime = pct * videoEl.duration;
+      progress.style.width = (pct * 100) + '%';
+    }
+  }
+
+  function onPointerDown(e) {
+    e.preventDefault();
+    _reelTimelineState.isScrubbing = true;
+    videoEl.pause();
+    seekToX(e);
+    document.addEventListener('pointermove', onPointerMove);
+    document.addEventListener('pointerup', onPointerUp);
+  }
+
+  function onPointerMove(e) {
+    if (_reelTimelineState.isScrubbing) {
+      seekToX(e);
+    }
+  }
+
+  function onPointerUp(e) {
+    if (_reelTimelineState.isScrubbing) {
+      seekToX(e);
+      _reelTimelineState.isScrubbing = false;
+      videoEl.play();
+    }
+    document.removeEventListener('pointermove', onPointerMove);
+    document.removeEventListener('pointerup', onPointerUp);
+  }
+
+  track.addEventListener('pointerdown', onPointerDown);
+
+  // Store references for cleanup
+  _reelTimelineState._onPointerDown = onPointerDown;
+  _reelTimelineState._onPointerMove = onPointerMove;
+  _reelTimelineState._onPointerUp = onPointerUp;
+}
+
+function cleanupReelTimeline() {
+  const track = document.getElementById('reelTimelineTrack');
+  if (_reelTimelineState.video && _reelTimelineState.onTimeUpdate) {
+    _reelTimelineState.video.removeEventListener('timeupdate', _reelTimelineState.onTimeUpdate);
+  }
+  if (track && _reelTimelineState._onPointerDown) {
+    track.removeEventListener('pointerdown', _reelTimelineState._onPointerDown);
+  }
+  document.removeEventListener('pointermove', _reelTimelineState._onPointerMove);
+  document.removeEventListener('pointerup', _reelTimelineState._onPointerUp);
+  _reelTimelineState = { video: null, onTimeUpdate: null, isScrubbing: false };
+}
+
+function updateReelSaveButton() {
+  const saveBtn = document.getElementById('reelSaveBtn');
+  if (!saveBtn) return;
+
+  if (reelState.videoFile) {
+    saveBtn.disabled = false;
+    saveBtn.classList.add('enabled');
+  } else {
+    saveBtn.disabled = true;
+    saveBtn.classList.remove('enabled');
+  }
+}
+
+function initReelUploadView() {
+  const coverInput = document.getElementById('reelCoverInput');
+  const videoInput = document.getElementById('reelVideoInput');
+  const coverUploadBtn = document.getElementById('reelCoverUploadBtn');
+  const videoUploadBtn = document.getElementById('reelVideoUploadBtn');
+  const saveBtn = document.getElementById('reelSaveBtn');
+  const captionTextarea = document.getElementById('reelCaptionTextarea');
+  const closeBtn = document.getElementById('reelCloseBtn');
+
+  if (!coverInput || !videoInput) return;
+
+  // Close button
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => {
+      hideReelUploadView();
+    });
+  }
+
+  // Cover Image upload
+  coverUploadBtn.addEventListener('click', () => coverInput.click());
+  coverInput.addEventListener('change', async (e) => {
+    if (e.target.files.length > 0) {
+      const file = e.target.files[0];
+      reelState.coverFile = file;
+      try {
+        const dataUrl = await fileToBase64(file);
+        reelState.coverDataUrl = dataUrl;
+
+        // Update sidebar preview box with thumbnail
+        const coverBox = document.getElementById('reelCoverPreviewBox');
+        coverBox.innerHTML = `<img src="${dataUrl}" alt="Cover" class="reel-icon-preview">`;
+
+        // Update phone device preview
+        updatePhonePreview();
+      } catch (err) {
+        console.error('Error reading cover image:', err);
+      }
+      coverInput.value = '';
+    }
+  });
+
+  // Video upload
+  videoUploadBtn.addEventListener('click', () => videoInput.click());
+  videoInput.addEventListener('change', async (e) => {
+    if (e.target.files.length > 0) {
+      const file = e.target.files[0];
+      reelState.videoFile = file;
+      try {
+        reelState.videoObjectUrl = URL.createObjectURL(file);
+
+        // Generate a thumbnail from the video for the sidebar icon
+        const videoBox = document.getElementById('reelVideoPreviewBox');
+        const tempVideo = document.createElement('video');
+        tempVideo.src = reelState.videoObjectUrl;
+        tempVideo.muted = true;
+        tempVideo.playsInline = true;
+        tempVideo.addEventListener('loadeddata', () => {
+          tempVideo.currentTime = 0.5;
+        });
+        tempVideo.addEventListener('seeked', () => {
+          const canvas = document.createElement('canvas');
+          canvas.width = tempVideo.videoWidth;
+          canvas.height = tempVideo.videoHeight;
+          canvas.getContext('2d').drawImage(tempVideo, 0, 0);
+          const thumbUrl = canvas.toDataURL('image/jpeg', 0.7);
+          videoBox.innerHTML = `<img src="${thumbUrl}" alt="Video" class="reel-icon-preview">`;
+          reelState.videoThumbUrl = thumbUrl;
+        });
+
+        // Update phone device preview
+        updatePhonePreview();
+        updateReelSaveButton();
+      } catch (err) {
+        console.error('Error reading video:', err);
+      }
+      videoInput.value = '';
+    }
+  });
+
+  // Save button
+  saveBtn.addEventListener('click', async () => {
+    if (!reelState.videoFile) return;
+
+    const campaign = campaigns[currentCampaign];
+    if (!campaign) return;
+
+    if (!campaign.videos) campaign.videos = [];
+    if (!campaign.images) campaign.images = [];
+
+    // Add video asset
+    const videoAsset = {
+      id: assetIdCounter++,
+      filename: reelState.videoFile.name,
+      status: 'pending',
+      thumbnail: reelState.videoThumbUrl,
+      duration: '00:00'
+    };
+    campaign.videos.push(videoAsset);
+
+    // Add cover image asset if uploaded
+    if (reelState.coverFile) {
+      const coverAsset = {
+        id: assetIdCounter++,
+        filename: reelState.coverFile.name,
+        status: 'pending',
+        thumbnail: reelState.coverDataUrl
+      };
+      campaign.images.push(coverAsset);
+    }
+
+    campaign.hasContent = true;
+    saveCampaigns();
+
+    hideReelUploadView();
+    switchCampaign(currentCampaign);
+  });
+
+  // Tab switching
+  const reelTabs = document.querySelectorAll('.reel-tab');
+  reelTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      reelTabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      reelState.activeTab = tab.dataset.tab;
+      updatePhonePreview();
+    });
+  });
+
+  // Caption syncs to phone preview
+  if (captionTextarea) {
+    captionTextarea.addEventListener('input', () => {
+      const captionPreview = document.querySelector('.reel-caption-preview');
+      if (captionPreview) {
+        if (captionTextarea.value.trim()) {
+          captionPreview.textContent = captionTextarea.value;
+          captionPreview.classList.remove('reel-caption-placeholder');
+        } else {
+          captionPreview.textContent = 'Write my caption...';
+          captionPreview.classList.add('reel-caption-placeholder');
+        }
+      }
+    });
   }
 }
