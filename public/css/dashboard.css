@@ -1236,7 +1236,7 @@ body {
   background: #F7FAFC;
   border: 3px solid #fff;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.03), 0 3px 6px 1px rgba(0, 0, 0, 0.02);
-  transition: background 0.2s, box-shadow 0.2s, padding 0.2s;
+  transition: background 0.2s, box-shadow 0.2s, padding 0.2s, transform 0.2s ease;
 }
 
 /* Bigger buttons for empty state */
@@ -1253,6 +1253,7 @@ body {
 .content-type-card:hover .content-type-icon {
   background: #EEF4F7;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05), 0 4px 10px 2px rgba(0, 0, 0, 0.04);
+  transform: scale(1.01) translateY(-4px);
 }
 
 .content-type-label {
@@ -2458,6 +2459,12 @@ body {
   display: flex;
   flex: 1;
   overflow: hidden;
+  animation: fadeInView 300ms ease-out;
+}
+
+@keyframes fadeInView {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .reel-preview-area {
@@ -2488,18 +2495,59 @@ body {
   max-height: 640px;
   max-width: 325px;
   border-radius: 30px;
-  box-shadow: 0px 2px 36px 0px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   position: relative;
+  background: #FBFDFE;
+}
+
+.phone-mockup-border {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.phone-mockup.has-content .phone-mockup-border {
+  display: none;
+}
+
+.phone-mockup.has-content {
+  box-shadow: 0px 2px 36px 0px rgba(0, 0, 0, 0.1);
   background: #D9D9D9;
 }
 
 .phone-mockup-empty {
   width: 100%;
   height: 100%;
-  background: #D9D9D9;
   position: relative;
   overflow: hidden;
+}
+
+.phone-empty-state {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  z-index: 0;
+}
+
+.phone-empty-state img {
+  width: 28px;
+  height: 28px;
+  opacity: 0.5;
+}
+
+.phone-empty-state span {
+  font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #7E8284;
+  text-align: center;
 }
 
 .phone-mockup-empty.has-cover {
@@ -2515,6 +2563,7 @@ body {
   height: 100%;
   object-fit: cover;
   z-index: 0;
+  cursor: pointer;
 }
 
 .reel-phone-cover {
@@ -2587,24 +2636,34 @@ body {
 /* Timeline tracker / progress bar */
 .reel-timeline-track {
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 4px;
-  height: 4px;
-  background: rgba(255, 255, 255, 0.5);
+  left: 24px;
+  right: 24px;
+  bottom: 0;
+  height: 3px;
+  padding: 10px 0;
   border-radius: 20px;
-  overflow: hidden;
   z-index: 4;
   cursor: pointer;
   display: none;
 }
 
+.reel-timeline-track::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 10px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+}
+
 .reel-timeline-progress {
   position: absolute;
   left: 0;
-  top: 0;
+  top: 10px;
   width: 0%;
-  height: 100%;
+  height: 3px;
   background: #fff;
   border-radius: 20px;
   pointer-events: none;
@@ -2629,6 +2688,7 @@ body {
   left: 12px;
   bottom: 14px;
   right: 50px;
+  max-height: 50%;
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -2696,7 +2756,7 @@ body {
   letter-spacing: 0.08px;
 }
 
-/* Caption — flows inside bottom container */
+/* Caption */
 .reel-caption-preview {
   font-family: -apple-system, 'SF Pro Display', sans-serif;
   font-size: 10px;
@@ -2704,14 +2764,10 @@ body {
   color: #fff;
   letter-spacing: 0.3px;
   line-height: 1.4;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  max-height: 56px;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
   margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .reel-caption-preview.reel-caption-placeholder {
@@ -2763,6 +2819,18 @@ body {
   padding-bottom: 16px;
   flex-shrink: 0;
   overflow-y: auto;
+  animation: slideInFromRight 350ms ease-out;
+}
+
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 .reel-sidebar-content {
@@ -2792,10 +2860,110 @@ body {
   color: #1A1A1A;
 }
 
+.reel-caption-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.generate-caption-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 36px;
+  padding: 0 16px;
+  background: linear-gradient(to right, #731DFF, #1782FF);
+  border: none;
+  border-radius: 10px;
+  color: #FFFFFF;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  flex-shrink: 0;
+}
+
+.generate-caption-btn:hover {
+  opacity: 0.9;
+}
+
+.generate-caption-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.generate-caption-btn .spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #FFFFFF;
+  border-radius: 50%;
+  animation: caption-spin 0.6s linear infinite;
+}
+
+@keyframes caption-spin {
+  to { transform: rotate(360deg); }
+}
+
 .reel-upload-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.reel-upload-icon-wrapper {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.reel-delete-asset-btn {
+  display: none !important;
+  position: absolute;
+  inset: 0;
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  background: rgba(223, 70, 70, 0.8);
+  border: none;
+  cursor: pointer;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 0;
+  z-index: 2;
+}
+
+.reel-delete-asset-btn img {
+  width: 14px;
+  height: 14px;
+}
+
+.reel-delete-asset-btn span {
+  font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 8px;
+  font-weight: 500;
+  color: #fff;
+  letter-spacing: 0.16px;
+  text-align: center;
+}
+
+.reel-upload-icon-wrapper.has-asset:hover .reel-delete-asset-btn {
+  display: flex !important;
+  animation: popIn 100ms ease-out;
+}
+
+@keyframes popIn {
+  from {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .reel-upload-icon-box {
@@ -2808,6 +2976,11 @@ body {
   justify-content: center;
   flex-shrink: 0;
   overflow: hidden;
+}
+
+.reel-upload-icon-box.has-asset {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: #fff;
 }
 
 .reel-upload-icon-box img.reel-icon-default {
@@ -2838,6 +3011,15 @@ body {
 
 .reel-upload-btn:hover {
   background: #E64A1A;
+}
+
+.reel-upload-btn.secondary {
+  background: #EEF4F7;
+  color: #1A1A1A;
+}
+
+.reel-upload-btn.secondary:hover {
+  background: #E0EAEF;
 }
 
 .reel-sidebar-divider {

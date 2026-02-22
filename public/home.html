@@ -315,7 +315,20 @@
             <div class="reel-preview-column">
               <!-- Phone Mockup -->
               <div class="phone-mockup">
+                <svg class="phone-mockup-border" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                  <rect x="0.75" y="0.75" width="99.7%" height="99.7%" rx="29.25" ry="29.25" fill="none" stroke="#DBE0E3" stroke-width="1.5" stroke-dasharray="10 8"/>
+                </svg>
                 <div class="phone-mockup-empty" id="reelPhonePreview">
+                  <!-- Empty state: Reel -->
+                  <div class="phone-empty-state" id="reelEmptyState">
+                    <img src="/images/reel-film.svg" alt="Reel" width="28" height="28">
+                    <span>Reel preview will be shown here</span>
+                  </div>
+                  <!-- Empty state: Cover Image -->
+                  <div class="phone-empty-state" id="coverEmptyState" style="display: none;">
+                    <img src="/images/reel-image.svg" alt="Cover" width="28" height="28">
+                    <span>Cover image preview will be shown here</span>
+                  </div>
                   <!-- Reel overlay UI (decorative) -->
                   <div class="reel-overlay">
                     <!-- Right side actions panel -->
@@ -349,20 +362,15 @@
                         <div class="reel-user-text-col">
                           <div class="reel-user-name-row">
                             <span class="reel-username">username</span>
-                            <svg class="reel-verified-badge" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <circle cx="8" cy="8" r="6" fill="#3897F0"/>
-                              <path d="M5.5 8L7 9.5L10.5 6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
+                            <img class="reel-verified-badge" src="/images/verified-badge-small.svg" alt="Verified" width="16" height="16">
                           </div>
                           <div class="reel-audio-bar">
-                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <path d="M3.5 3.5L7 3.5M7 3.5L7 7M7 3.5L3.5 7" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
+                            <img src="/images/arrow-narrow-up-right.svg" alt="Audio" width="14" height="14">
                             <span class="reel-audio-name">BAILE INoLVIDABLE</span>
                           </div>
                         </div>
                       </div>
-                      <p class="reel-caption-preview reel-caption-placeholder">Write my caption...</p>
+                      <p class="reel-caption-preview reel-caption-placeholder" id="reelCaptionPreview">Write my caption...</p>
                     </div>
                   </div>
                   <!-- Timeline tracker -->
@@ -382,26 +390,18 @@
           <!-- Right Sidebar -->
           <div class="reel-sidebar">
             <div class="reel-sidebar-content">
-              <!-- Cover Image Section -->
-              <div class="reel-upload-section">
-                <label class="reel-upload-label">Cover Image</label>
-                <div class="reel-upload-row">
-                  <div class="reel-upload-icon-box" id="reelCoverPreviewBox">
-                    <img src="/images/reel-image.svg" alt="Image" width="20" height="20" class="reel-icon-default">
-                  </div>
-                  <input type="file" id="reelCoverInput" accept="image/*" hidden>
-                  <button class="reel-upload-btn" id="reelCoverUploadBtn">Upload</button>
-                </div>
-              </div>
-
-              <div class="reel-sidebar-divider"></div>
-
               <!-- Video Section -->
               <div class="reel-upload-section">
                 <label class="reel-upload-label">Video</label>
                 <div class="reel-upload-row">
-                  <div class="reel-upload-icon-box" id="reelVideoPreviewBox">
-                    <img src="/images/reel-film.svg" alt="Video" width="20" height="20" class="reel-icon-default">
+                  <div class="reel-upload-icon-wrapper">
+                    <div class="reel-upload-icon-box" id="reelVideoPreviewBox">
+                      <img src="/images/reel-film.svg" alt="Video" width="20" height="20" class="reel-icon-default">
+                    </div>
+                    <button class="reel-delete-asset-btn" id="reelVideoDeleteBtn">
+                      <img src="/images/trash-03.svg" alt="Delete" width="14" height="14">
+                      <span>Remove</span>
+                    </button>
                   </div>
                   <input type="file" id="reelVideoInput" accept="video/*" hidden>
                   <button class="reel-upload-btn" id="reelVideoUploadBtn">Upload</button>
@@ -410,9 +410,35 @@
 
               <div class="reel-sidebar-divider"></div>
 
+              <!-- Cover Image Section -->
+              <div class="reel-upload-section">
+                <label class="reel-upload-label">Cover Image</label>
+                <div class="reel-upload-row">
+                  <div class="reel-upload-icon-wrapper">
+                    <div class="reel-upload-icon-box" id="reelCoverPreviewBox">
+                      <img src="/images/reel-image.svg" alt="Image" width="20" height="20" class="reel-icon-default">
+                    </div>
+                    <button class="reel-delete-asset-btn" id="reelCoverDeleteBtn">
+                      <img src="/images/trash-03.svg" alt="Delete" width="14" height="14">
+                      <span>Remove</span>
+                    </button>
+                  </div>
+                  <input type="file" id="reelCoverInput" accept="image/*" hidden>
+                  <button class="reel-upload-btn" id="reelCoverUploadBtn">Upload</button>
+                </div>
+              </div>
+
+              <div class="reel-sidebar-divider"></div>
+
               <!-- Caption Section -->
               <div class="reel-upload-section">
-                <label class="reel-upload-label">Caption</label>
+                <div class="reel-caption-header">
+                  <label class="reel-upload-label">Caption</label>
+                  <button class="generate-caption-btn" id="generateCaptionBtn">
+                    <span>Generate Caption</span>
+                    <img src="/images/stars-02.svg" alt="" width="14" height="14">
+                  </button>
+                </div>
                 <textarea class="reel-caption-textarea" id="reelCaptionTextarea" placeholder="Write my caption..."></textarea>
               </div>
             </div>

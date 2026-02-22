@@ -247,7 +247,7 @@ function renderAssets() {
         <div class="reel-content-card" data-id="${vid.id}">
           <img class="reel-content-card-img" src="${vid.thumbnail}" alt="${vid.filename}">
           <div class="reel-content-card-overlay">
-            <img src="/images/reel-film.svg" alt="Reel">
+            <img src="/images/reel-reels-icon.svg" alt="Reel">
             <span>Reel</span>
           </div>
         </div>
@@ -2209,12 +2209,12 @@ function initShareModal() {
   if (!shareBtn || !shareModal) return;
 
   // Open share modal
-  shareBtn.addEventListener('click', () => {
-    // Generate share link based on current campaign
-    const shareLink = generateShareLink();
-    shareLinkInput.value = shareLink;
+  shareBtn.addEventListener('click', async () => {
+    shareLinkInput.value = 'Generating link...';
     shareModal.classList.add('show');
     shareEmailInput.focus();
+    const shareLink = await generateShareLink();
+    shareLinkInput.value = shareLink;
   });
 
   // Close modal
@@ -2285,12 +2285,36 @@ function initShareModal() {
   }
 }
 
-function generateShareLink() {
-  // Generate a shareable link for the current campaign
+async function generateShareLink() {
   const baseUrl = window.location.origin;
   const campaignSlug = currentCampaign.toLowerCase().replace(/\s+/g, '-');
-  const shareId = btoa(currentCampaign).replace(/=/g, '');
-  return `${baseUrl}/share/${campaignSlug}?id=${shareId}`;
+  const campaign = campaigns[currentCampaign];
+  const shareData = {
+    name: currentCampaign,
+    caption: campaign.caption || '',
+    videos: (campaign.videos || []).map(v => ({
+      id: v.id, filename: v.filename, status: v.status,
+      duration: v.duration, thumbnail: v.thumbnail,
+      videoUrl: v.videoUrl || null
+    })),
+    images: (campaign.images || []).map(img => ({
+      id: img.id, filename: img.filename, status: img.status,
+      thumbnail: img.thumbnail
+    }))
+  };
+
+  try {
+    const res = await fetch('/api/shares', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ slug: campaignSlug, data: shareData })
+    });
+    if (!res.ok) throw new Error('Failed to create share');
+    return `${baseUrl}/share/${campaignSlug}`;
+  } catch (err) {
+    console.error('Share link error:', err);
+    return `${baseUrl}/share/${campaignSlug}`;
+  }
 }
 
 function isValidEmail(email) {
@@ -2350,6 +2374,16 @@ function showReelUploadView() {
 
   // Reset reel state
   resetReelState();
+
+  // Restore saved caption if available
+  const campaign = campaigns[currentCampaign];
+  if (campaign && campaign.caption) {
+    const captionTextarea = document.getElementById('reelCaptionTextarea');
+    if (captionTextarea) {
+      captionTextarea.value = campaign.caption;
+      captionTextarea.dispatchEvent(new Event('input'));
+    }
+  }
 }
 
 function hideReelUploadView() {
@@ -2382,10 +2416,22 @@ function resetReelState() {
 
   if (coverBox) {
     coverBox.innerHTML = `<img src="/images/reel-image.svg" alt="Image" width="20" height="20" class="reel-icon-default">`;
+    coverBox.classList.remove('has-asset');
   }
   if (videoBox) {
     videoBox.innerHTML = `<img src="/images/reel-film.svg" alt="Video" width="20" height="20" class="reel-icon-default">`;
+    videoBox.classList.remove('has-asset');
   }
+  // Reset delete buttons and upload button states
+  const coverDeleteBtn = document.getElementById('reelCoverDeleteBtn');
+  const videoDeleteBtn = document.getElementById('reelVideoDeleteBtn');
+  const coverUploadBtn = document.getElementById('reelCoverUploadBtn');
+  const videoUploadBtn = document.getElementById('reelVideoUploadBtn');
+  if (coverDeleteBtn) coverDeleteBtn.closest('.reel-upload-icon-wrapper').classList.remove('has-asset');
+  if (videoDeleteBtn) videoDeleteBtn.closest('.reel-upload-icon-wrapper').classList.remove('has-asset');
+  if (coverUploadBtn) coverUploadBtn.classList.remove('secondary');
+  if (videoUploadBtn) videoUploadBtn.classList.remove('secondary');
+
   if (captionTextarea) captionTextarea.value = '';
   if (saveBtn) {
     saveBtn.disabled = true;
@@ -2400,6 +2446,15 @@ function resetReelState() {
     // Remove any cover image element
     const existingCoverImg = phonePreview.querySelector('.reel-phone-cover');
     if (existingCoverImg) existingCoverImg.remove();
+    // Reset to empty state
+    const phoneMockup = phonePreview.closest('.phone-mockup');
+    if (phoneMockup) phoneMockup.classList.remove('has-content');
+    const reelEmpty = document.getElementById('reelEmptyState');
+    const coverEmpty = document.getElementById('coverEmptyState');
+    if (reelEmpty) reelEmpty.style.display = 'flex';
+    if (coverEmpty) coverEmpty.style.display = 'none';
+    const overlay = phonePreview.querySelector('.reel-overlay');
+    if (overlay) overlay.style.display = 'none';
   }
 
   // Reset timeline
@@ -2410,7 +2465,7 @@ function resetReelState() {
   if (timelineProgress) timelineProgress.style.width = '0%';
 
   // Reset caption preview to placeholder
-  const captionPreview = document.querySelector('.reel-caption-preview');
+  const captionPreview = document.getElementById('reelCaptionPreview');
   if (captionPreview) {
     captionPreview.textContent = 'Write my caption...';
     captionPreview.classList.add('reel-caption-placeholder');
@@ -2427,6 +2482,7 @@ function updatePhonePreview() {
   const phonePreview = document.getElementById('reelPhonePreview');
   if (!phonePreview) return;
 
+  const phoneMockup = phonePreview.closest('.phone-mockup');
   const activeTab = reelState.activeTab || 'reel';
 
   // Remove existing media elements
@@ -2442,13 +2498,20 @@ function updatePhonePreview() {
   const overlay = phonePreview.querySelector('.reel-overlay');
   const timelineTrack = document.getElementById('reelTimelineTrack');
   const timelineProgress = document.getElementById('reelTimelineProgress');
+  const reelEmpty = document.getElementById('reelEmptyState');
+  const coverEmpty = document.getElementById('coverEmptyState');
+
+  // Hide both empty states by default
+  if (reelEmpty) reelEmpty.style.display = 'none';
+  if (coverEmpty) coverEmpty.style.display = 'none';
 
   if (activeTab === 'reel') {
     // Show overlay for reel tab
     if (overlay) overlay.style.display = 'flex';
 
-    // Show video if uploaded, else show cover as background, else gray
     if (reelState.videoObjectUrl) {
+      // Has video — show video with content styling
+      if (phoneMockup) phoneMockup.classList.add('has-content');
       const video = document.createElement('video');
       video.className = 'reel-phone-video';
       video.src = reelState.videoObjectUrl;
@@ -2456,6 +2519,10 @@ function updatePhonePreview() {
       video.muted = true;
       video.loop = true;
       video.playsInline = true;
+      video.addEventListener('click', () => {
+        if (video.paused) video.play();
+        else video.pause();
+      });
       phonePreview.insertBefore(video, overlay);
 
       // Show timeline and bind it to video
@@ -2463,29 +2530,33 @@ function updatePhonePreview() {
       if (timelineProgress) timelineProgress.style.width = '0%';
       initReelTimeline(video);
     } else {
-      // No video — hide timeline
+      // No video — show reel empty state
+      if (phoneMockup) phoneMockup.classList.remove('has-content');
+      if (reelEmpty) reelEmpty.style.display = 'flex';
+      if (overlay) overlay.style.display = 'none';
       if (timelineTrack) timelineTrack.style.display = 'none';
       if (timelineProgress) timelineProgress.style.width = '0%';
       cleanupReelTimeline();
-
-      if (reelState.coverDataUrl) {
-        phonePreview.style.backgroundImage = `url(${reelState.coverDataUrl})`;
-        phonePreview.classList.add('has-cover');
-      }
     }
   } else if (activeTab === 'cover') {
-    // Hide overlay for cover image tab — just show the image
+    // Hide overlay for cover image tab
     if (overlay) overlay.style.display = 'none';
     // Hide timeline on cover tab
     if (timelineTrack) timelineTrack.style.display = 'none';
     cleanupReelTimeline();
 
     if (reelState.coverDataUrl) {
+      // Has cover — show cover with content styling
+      if (phoneMockup) phoneMockup.classList.add('has-content');
       const img = document.createElement('img');
       img.className = 'reel-phone-cover';
       img.src = reelState.coverDataUrl;
       img.alt = 'Cover Image';
       phonePreview.appendChild(img);
+    } else {
+      // No cover — show cover empty state
+      if (phoneMockup) phoneMockup.classList.remove('has-content');
+      if (coverEmpty) coverEmpty.style.display = 'flex';
     }
   }
 }
@@ -2504,7 +2575,6 @@ function initReelTimeline(videoEl) {
 
   // Update progress bar as video plays
   _reelTimelineState.onTimeUpdate = () => {
-    if (_reelTimelineState.isScrubbing) return;
     if (videoEl.duration) {
       const pct = (videoEl.currentTime / videoEl.duration) * 100;
       progress.style.width = pct + '%';
@@ -2526,6 +2596,7 @@ function initReelTimeline(videoEl) {
   function onPointerDown(e) {
     e.preventDefault();
     _reelTimelineState.isScrubbing = true;
+    _reelTimelineState.wasPlaying = !videoEl.paused;
     videoEl.pause();
     seekToX(e);
     document.addEventListener('pointermove', onPointerMove);
@@ -2542,7 +2613,9 @@ function initReelTimeline(videoEl) {
     if (_reelTimelineState.isScrubbing) {
       seekToX(e);
       _reelTimelineState.isScrubbing = false;
-      videoEl.play();
+      if (_reelTimelineState.wasPlaying) {
+        videoEl.play();
+      }
     }
     document.removeEventListener('pointermove', onPointerMove);
     document.removeEventListener('pointerup', onPointerUp);
@@ -2613,6 +2686,9 @@ function initReelUploadView() {
         // Update sidebar preview box with thumbnail
         const coverBox = document.getElementById('reelCoverPreviewBox');
         coverBox.innerHTML = `<img src="${dataUrl}" alt="Cover" class="reel-icon-preview">`;
+        coverBox.classList.add('has-asset');
+        coverBox.closest('.reel-upload-icon-wrapper').classList.add('has-asset');
+        coverUploadBtn.classList.add('secondary');
 
         // Update phone device preview
         updatePhonePreview();
@@ -2621,6 +2697,18 @@ function initReelUploadView() {
       }
       coverInput.value = '';
     }
+  });
+
+  // Cover Image delete
+  document.getElementById('reelCoverDeleteBtn').addEventListener('click', () => {
+    reelState.coverFile = null;
+    reelState.coverDataUrl = null;
+    const coverBox = document.getElementById('reelCoverPreviewBox');
+    coverBox.innerHTML = `<img src="/images/reel-image.svg" alt="Image" width="20" height="20" class="reel-icon-default">`;
+    coverBox.classList.remove('has-asset');
+    coverBox.closest('.reel-upload-icon-wrapper').classList.remove('has-asset');
+    coverUploadBtn.classList.remove('secondary');
+    updatePhonePreview();
   });
 
   // Video upload
@@ -2651,6 +2739,10 @@ function initReelUploadView() {
           reelState.videoThumbUrl = thumbUrl;
         });
 
+        videoBox.classList.add('has-asset');
+        videoBox.closest('.reel-upload-icon-wrapper').classList.add('has-asset');
+        videoUploadBtn.classList.add('secondary');
+
         // Update phone device preview
         updatePhonePreview();
         updateReelSaveButton();
@@ -2659,6 +2751,23 @@ function initReelUploadView() {
       }
       videoInput.value = '';
     }
+  });
+
+  // Video delete
+  document.getElementById('reelVideoDeleteBtn').addEventListener('click', () => {
+    if (reelState.videoObjectUrl) {
+      URL.revokeObjectURL(reelState.videoObjectUrl);
+    }
+    reelState.videoFile = null;
+    reelState.videoObjectUrl = null;
+    reelState.videoThumbUrl = null;
+    const videoBox = document.getElementById('reelVideoPreviewBox');
+    videoBox.innerHTML = `<img src="/images/reel-film.svg" alt="Video" width="20" height="20" class="reel-icon-default">`;
+    videoBox.classList.remove('has-asset');
+    videoBox.closest('.reel-upload-icon-wrapper').classList.remove('has-asset');
+    videoUploadBtn.classList.remove('secondary');
+    updatePhonePreview();
+    updateReelSaveButton();
   });
 
   // Save button
@@ -2671,32 +2780,79 @@ function initReelUploadView() {
     if (!campaign.videos) campaign.videos = [];
     if (!campaign.images) campaign.images = [];
 
-    // Add video asset
-    const videoAsset = {
-      id: assetIdCounter++,
-      filename: reelState.videoFile.name,
-      status: 'pending',
-      thumbnail: reelState.videoThumbUrl,
-      duration: '00:00'
-    };
-    campaign.videos.push(videoAsset);
+    // Disable save button while uploading
+    saveBtn.disabled = true;
+    const originalText = saveBtn.textContent;
+    saveBtn.textContent = 'Uploading...';
 
-    // Add cover image asset if uploaded
-    if (reelState.coverFile) {
-      const coverAsset = {
+    try {
+      // Upload video file to server
+      let videoUrl = null;
+      console.log('Uploading video:', reelState.videoFile.name, reelState.videoFile.size, 'bytes', reelState.videoFile.type);
+      const videoFormData = new FormData();
+      videoFormData.append('video', reelState.videoFile);
+      const videoRes = await fetch('/api/upload-video', { method: 'POST', body: videoFormData });
+      if (videoRes.ok) {
+        const videoJson = await videoRes.json();
+        videoUrl = videoJson.url;
+        console.log('Video uploaded successfully:', videoUrl);
+      } else {
+        const errText = await videoRes.text().catch(() => '');
+        console.error('Video upload failed:', videoRes.status, errText);
+      }
+
+      // Upload cover image to server if present
+      let coverUrl = null;
+      if (reelState.coverFile) {
+        const coverFormData = new FormData();
+        coverFormData.append('image', reelState.coverFile);
+        const coverRes = await fetch('/api/upload-image', { method: 'POST', body: coverFormData });
+        if (coverRes.ok) {
+          const coverJson = await coverRes.json();
+          coverUrl = coverJson.url;
+        }
+      }
+
+      // Add video asset
+      const videoAsset = {
         id: assetIdCounter++,
-        filename: reelState.coverFile.name,
+        filename: reelState.videoFile.name,
         status: 'pending',
-        thumbnail: reelState.coverDataUrl
+        thumbnail: reelState.videoThumbUrl,
+        videoUrl: videoUrl,
+        duration: '00:00'
       };
-      campaign.images.push(coverAsset);
+      campaign.videos.push(videoAsset);
+
+      // Add cover image asset if uploaded
+      if (reelState.coverFile) {
+        const coverAsset = {
+          id: assetIdCounter++,
+          filename: reelState.coverFile.name,
+          status: 'pending',
+          thumbnail: coverUrl || reelState.coverDataUrl
+        };
+        campaign.images.push(coverAsset);
+      }
+
+      // Save caption
+      const captionValue = captionTextarea ? captionTextarea.value.trim() : '';
+      if (captionValue) {
+        campaign.caption = captionValue;
+      }
+
+      campaign.hasContent = true;
+      saveCampaigns();
+
+      hideReelUploadView();
+      switchCampaign(currentCampaign);
+    } catch (err) {
+      console.error('Error saving reel content:', err);
+      alert('Failed to upload files. Please try again.');
+    } finally {
+      saveBtn.disabled = false;
+      saveBtn.textContent = originalText;
     }
-
-    campaign.hasContent = true;
-    saveCampaigns();
-
-    hideReelUploadView();
-    switchCampaign(currentCampaign);
   });
 
   // Tab switching
@@ -2713,15 +2869,63 @@ function initReelUploadView() {
   // Caption syncs to phone preview
   if (captionTextarea) {
     captionTextarea.addEventListener('input', () => {
-      const captionPreview = document.querySelector('.reel-caption-preview');
-      if (captionPreview) {
+      const preview = document.getElementById('reelCaptionPreview');
+      if (preview) {
         if (captionTextarea.value.trim()) {
-          captionPreview.textContent = captionTextarea.value;
-          captionPreview.classList.remove('reel-caption-placeholder');
+          preview.textContent = captionTextarea.value;
+          preview.classList.remove('reel-caption-placeholder');
         } else {
-          captionPreview.textContent = 'Write my caption...';
-          captionPreview.classList.add('reel-caption-placeholder');
+          preview.textContent = 'Write my caption...';
+          preview.classList.add('reel-caption-placeholder');
         }
+      }
+    });
+  }
+
+  // Generate Caption with AI
+  const generateCaptionBtn = document.getElementById('generateCaptionBtn');
+  if (generateCaptionBtn) {
+    generateCaptionBtn.addEventListener('click', async () => {
+      const imageDataUrl = reelState.coverDataUrl || reelState.videoThumbUrl;
+      if (!imageDataUrl) {
+        alert('Please upload a cover image or video first.');
+        return;
+      }
+
+      // Show loading state
+      generateCaptionBtn.disabled = true;
+      const btnSpan = generateCaptionBtn.querySelector('span');
+      const btnIcon = generateCaptionBtn.querySelector('img');
+      const originalText = btnSpan.textContent;
+      btnSpan.textContent = 'Generating...';
+      btnIcon.style.display = 'none';
+      const spinner = document.createElement('div');
+      spinner.className = 'spinner';
+      generateCaptionBtn.appendChild(spinner);
+
+      try {
+        const res = await fetch('/api/generate-caption', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ image: imageDataUrl })
+        });
+
+        if (!res.ok) throw new Error('Failed to generate caption');
+
+        const data = await res.json();
+        if (data.caption && captionTextarea) {
+          captionTextarea.value = data.caption;
+          captionTextarea.dispatchEvent(new Event('input'));
+        }
+      } catch (err) {
+        console.error('Caption generation error:', err);
+        alert('Failed to generate caption. Please try again.');
+      } finally {
+        // Restore button state
+        btnSpan.textContent = originalText;
+        btnIcon.style.display = '';
+        spinner.remove();
+        generateCaptionBtn.disabled = false;
       }
     });
   }

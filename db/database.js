@@ -48,6 +48,14 @@ async function initDatabase() {
     )
   `);
 
+  db.run(`
+    CREATE TABLE IF NOT EXISTS shares (
+      slug TEXT PRIMARY KEY,
+      data TEXT NOT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
+
   saveDatabase();
   console.log('Database initialized');
   return db;
@@ -170,6 +178,19 @@ function getCommentsByAsset(assetId) {
   }));
 }
 
+// Share operations
+function createShare(slug, data) {
+  db.run('INSERT OR REPLACE INTO shares (slug, data) VALUES (?, ?)', [slug, data]);
+  saveDatabase();
+}
+
+function getShare(slug) {
+  const result = db.exec('SELECT slug, data, created_at FROM shares WHERE slug = ?', [slug]);
+  if (result.length === 0 || result[0].values.length === 0) return null;
+  const row = result[0].values[0];
+  return { slug: row[0], data: row[1], created_at: row[2] };
+}
+
 module.exports = {
   initDatabase,
   getDb,
@@ -180,5 +201,7 @@ module.exports = {
   getAsset,
   updateAssetStatus,
   createComment,
-  getCommentsByAsset
+  getCommentsByAsset,
+  createShare,
+  getShare
 };

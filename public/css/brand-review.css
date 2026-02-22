@@ -1,0 +1,703 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #FBF7F3;
+  color: #1a1a1a;
+}
+
+.brand-review-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 20px;
+}
+
+/* Header */
+.brand-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 24px;
+  flex-shrink: 0;
+}
+
+.brand-logo {
+  flex-shrink: 0;
+}
+
+.brand-header-divider {
+  width: 1px;
+  height: 20px;
+  background: #DBE0E3;
+}
+
+.brand-campaign-name {
+  font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+/* Cards View */
+.brand-content {
+  flex: 1;
+  background: #fff;
+  border-radius: 24px;
+  overflow-y: auto;
+  padding: 32px;
+}
+
+.brand-section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.brand-section-title {
+  font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #000;
+  letter-spacing: -0.32px;
+}
+
+.brand-cards {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+/* Reuse reel content card styles */
+.brand-card {
+  width: 200px;
+  height: 300px;
+  border-radius: 22px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  flex-shrink: 0;
+  background: #D9D9D9;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.brand-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.brand-card img.brand-card-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.brand-card-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  padding-top: 32px;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
+}
+
+.brand-card-overlay img {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  filter: brightness(0) invert(1);
+}
+
+.brand-card-overlay span {
+  font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: #fff;
+}
+
+/* Empty State */
+.brand-empty {
+  flex: 1;
+  background: #fff;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 64px;
+}
+
+.brand-empty p {
+  font-size: 16px;
+  color: #7E8284;
+  font-weight: 500;
+}
+
+/* Preview View */
+.brand-preview {
+  flex: 1;
+  background: #fff;
+  border-radius: 24px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: fadeInView 300ms ease-out;
+}
+
+@keyframes fadeInView {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Preview Header */
+.preview-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 24px;
+  border-bottom: 1px solid #EEF4F7;
+  flex-shrink: 0;
+}
+
+.preview-back-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border: 1px solid #DBE0E3;
+  border-radius: 10px;
+  background: #fff;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: #343637;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.preview-back-btn:hover {
+  background: #F5F5F5;
+}
+
+.preview-header-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.preview-header-label span {
+  font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #343637;
+}
+
+/* Preview Body */
+.preview-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.preview-area {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  overflow: hidden;
+  min-width: 0;
+  min-height: 0;
+}
+
+.preview-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  max-height: 100%;
+  min-height: 0;
+}
+
+/* Phone Mockup — same styles as dashboard */
+.phone-mockup {
+  aspect-ratio: 375 / 740;
+  width: auto;
+  height: calc(100vh - 220px);
+  max-height: 640px;
+  max-width: 325px;
+  border-radius: 30px;
+  overflow: hidden;
+  position: relative;
+  background: #FBFDFE;
+}
+
+.phone-mockup-border {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.phone-mockup.has-content .phone-mockup-border {
+  display: none;
+}
+
+.phone-mockup.has-content {
+  box-shadow: 0px 2px 36px 0px rgba(0, 0, 0, 0.1);
+  background: #D9D9D9;
+}
+
+.phone-mockup-empty {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.reel-phone-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  cursor: pointer;
+}
+
+.reel-phone-cover {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+/* Reel Overlay (decorative IG UI) */
+.reel-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.reel-overlay-actions {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 10px;
+  gap: 12px;
+  z-index: 2;
+}
+
+.reel-actions-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.reel-action-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.reel-action-item img {
+  width: 26px;
+  height: 26px;
+  filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.25));
+}
+
+.reel-audio-thumb {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.reel-audio-thumb img {
+  width: 23px;
+  height: 23px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1.5px solid #fff;
+  display: block;
+}
+
+/* Timeline tracker / progress bar */
+.reel-timeline-track {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: 0;
+  height: 3px;
+  padding: 10px 0;
+  border-radius: 20px;
+  z-index: 4;
+  cursor: pointer;
+  display: none;
+}
+
+.reel-timeline-track::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 10px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+}
+
+.reel-timeline-progress {
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 0%;
+  height: 3px;
+  background: #fff;
+  border-radius: 20px;
+  pointer-events: none;
+}
+
+/* Bottom gradient scrim */
+.reel-overlay-bottom::before {
+  content: '';
+  position: absolute;
+  left: -12px;
+  right: -50px;
+  bottom: -14px;
+  height: calc(100% + 40px);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.reel-overlay-bottom {
+  position: absolute;
+  left: 12px;
+  bottom: 14px;
+  right: 50px;
+  max-height: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 1;
+}
+
+.reel-overlay-userinfo {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.reel-user-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.4);
+  border: 0.5px solid rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
+}
+
+.reel-user-text-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 28px;
+}
+
+.reel-user-name-row {
+  display: flex;
+  align-items: center;
+}
+
+.reel-username {
+  font-family: -apple-system, 'SF Pro Display', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 0.1px;
+}
+
+.reel-verified-badge {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+}
+
+.reel-audio-bar {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.reel-audio-name {
+  font-family: -apple-system, 'SF Pro Display', sans-serif;
+  font-size: 8px;
+  font-weight: 500;
+  color: #fff;
+  letter-spacing: 0.08px;
+}
+
+.reel-caption-preview {
+  font-family: -apple-system, 'SF Pro Display', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  color: #fff;
+  letter-spacing: 0.3px;
+  line-height: 1.4;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Reel Bottom Tabs */
+.reel-tabs {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #EEF4F7;
+  border-radius: 12px;
+  padding: 4px;
+}
+
+.reel-tab {
+  padding: 7px 16px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background: transparent;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #1A1A1A;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  outline: none;
+  width: 120px;
+  text-align: center;
+}
+
+.reel-tab.active {
+  background: #fff;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.06);
+  border-color: rgba(0, 0, 0, 0.03);
+}
+
+/* Preview Sidebar (read-only) */
+.preview-sidebar {
+  width: 338px;
+  border-left: 1px solid #EEF4F7;
+  display: flex;
+  flex-direction: column;
+  padding-top: 24px;
+  padding-bottom: 16px;
+  flex-shrink: 0;
+  overflow-y: auto;
+  animation: slideInFromRight 350ms ease-out;
+}
+
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.preview-sidebar-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+}
+
+.preview-info-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.preview-info-label {
+  display: block;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #1A1A1A;
+}
+
+.preview-caption-text {
+  width: 100%;
+  border-radius: 16px;
+  border: 1px solid #DBE0E3;
+  padding: 18px 16px;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: -0.24px;
+  color: #1A1A1A;
+  background: #FAFBFC;
+  min-height: 120px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.preview-info-value {
+  font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #343637;
+  word-break: break-all;
+}
+
+.preview-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: #FFF8F0;
+  width: fit-content;
+}
+
+.preview-status-badge .status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #F59E0B;
+}
+
+.preview-status-badge .status-text {
+  font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #F59E0B;
+}
+
+.preview-status-badge.approved {
+  background: #F0FFF4;
+}
+
+.preview-status-badge.approved .status-dot {
+  background: #22C55E;
+}
+
+.preview-status-badge.approved .status-text {
+  color: #22C55E;
+}
+
+.preview-status-badge.rejected {
+  background: #FFF5F5;
+}
+
+.preview-status-badge.rejected .status-dot {
+  background: #EF4444;
+}
+
+.preview-status-badge.rejected .status-text {
+  color: #EF4444;
+}
+
+.preview-status-badge.needs-revision {
+  background: #FFF8F0;
+}
+
+.preview-status-badge.needs-revision .status-dot {
+  background: #F59E0B;
+}
+
+.preview-status-badge.needs-revision .status-text {
+  color: #F59E0B;
+}
+
+/* Status Action Buttons */
+.preview-status-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.status-action-btn {
+  width: 100%;
+  height: 40px;
+  border-radius: 10px;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  background: #fff;
+}
+
+.status-action-btn.approved {
+  border: 1.5px solid #22C55E;
+  color: #22C55E;
+}
+
+.status-action-btn.approved:hover {
+  background: #F0FFF4;
+}
+
+.status-action-btn.approved.active {
+  background: #22C55E;
+  color: #fff;
+  border-color: #22C55E;
+}
+
+.status-action-btn.needs-revision {
+  border: 1.5px solid #F59E0B;
+  color: #F59E0B;
+}
+
+.status-action-btn.needs-revision:hover {
+  background: #FFF8F0;
+}
+
+.status-action-btn.needs-revision.active {
+  background: #F59E0B;
+  color: #fff;
+  border-color: #F59E0B;
+}
+
+.preview-sidebar-divider {
+  height: 1px;
+  background: #EEF4F7;
+  width: 100%;
+}
